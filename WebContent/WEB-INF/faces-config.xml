@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+
+version="2.0">
+
+   <!-- <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>view/home</from-outcome>
+            <to-view-id>view/home.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>-->
+   
+   <!--  <navigation-rule>
+  <from-view-id>index.xhtml</from-view-id>
+    <navigation-case>
+     <from-action>#{loginController.login}</from-action>
+      <from-outcome>success</from-outcome>
+	 <to-view-id>views/main.xhtml</to-view-id>
+   </navigation-case>
+ </navigation-rule> -->
+ <navigation-rule>
+	<navigation-case>
+		<from-outcome>searchAdvanced</from-outcome>
+		<to-view-id>views/public/searchAdvanced.xhtml</to-view-id>
+		<redirect />
+	</navigation-case>
+</navigation-rule>
+
+<application>
+          <el-resolver>
+                org.springframework.web.jsf.el.SpringBeanFacesELResolver
+        </el-resolver>
+        
+       
+     <!--     <locale-config>
+     	        <default-locale>en</default-locale>
+     	        <supported-locale>fr</supported-locale>
+     	        <supported-locale>ar</supported-locale>
+     	   </locale-config>
+	   <resource-bundle>
+		<base-name>com.i18n.messages</base-name>
+		<var>msg</var>
+	   </resource-bundle>
+     -->	
+     
+             
+     	   <locale-config>
+     	        <default-locale>en</default-locale>
+     	        <supported-locale>fr</supported-locale>
+     	        <supported-locale>ar</supported-locale>
+     	   </locale-config>
+	   <resource-bundle>
+		<base-name>com.annuaire.i18n.messages</base-name>
+		<var>msg</var>
+	   </resource-bundle>
+     
+    </application>
+
+</faces-config>

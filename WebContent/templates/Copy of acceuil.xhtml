@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<h:outputStylesheet name="css/style.css" />
+	<title><ui:insert name="title">Annuaire Tunisien</ui:insert></title>
+</h:head>
+
+<h:body dir="ltr"
+	style="width:90%;margin-left: auto; margin-right: auto">
+
+
+
+	<div id="top-left"
+		style="float: left; background-color: white; width: 45%; padding-right: 1cm;">
+		<ui:insert name="top-left">
+			<ui:include src="/views/public/searchRapidStr.xhtml" />
+		</ui:insert>
+	</div>
+
+	<div id="top-right"
+		style="float: left; background-color: white; width: 45%; border-left: solid gray 2px; padding-left: 1cm;">
+
+		<ui:insert name="top-right">
+			<ui:include src="/views/public/searchRapidEmp.xhtml" />
+		</ui:insert>
+
+
+	</div>
+
+	<div id="footer" style="clear: both; padding-top: 1cm;"></div>
+
+	<div id="bottom-left"
+		style="float: left; background-color: white; width: 25%; border-top: solid gray 2px; padding-top: 1cm;">
+		<ui:insert name="bottom-left">
+			<ui:include src="/views/public/domaineNavigation.xhtml" />
+		</ui:insert>
+
+	</div>
+
+	<div id="bottom-middle"
+		style="float: left; background-color: white; width: 50%; border-top: solid gray 2px; padding-top: 1cm;">
+		<ui:insert name="gg">
+		</ui:insert>
+	</div>
+
+	<div id="bottom-right"
+		style="float: left; background-color: white; width: 25%; border-top: solid gray 2px; padding-top: 1cm;">
+		<ui:insert name="bottom-right">
+			<ui:include src="/views/public/typeNavigation.xhtml" />
+		</ui:insert>
+	</div>
+
+
+
+
+
+
+
+
+
+
+</h:body>
+</html>

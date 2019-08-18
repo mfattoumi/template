@@ -1,0 +1,274 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template.xhtml">
+
+	<ui:define name="content">
+		<h:form dir="ltr" id="employeeForm">
+			<p:commandButton id="addButton"
+				update=":employeeAddForm:employeePanelAdd"
+				oncomplete="PF('employeeAdd').show()" 
+				icon="ui-icon-addstr"
+				value="Ajouter" 
+				title="Ajouter Employee">
+			</p:commandButton>
+			
+			<center>Gestion des Employees</center>
+			<!-- liste des Employee -->
+			<center>
+				<p:dataTable id="employeeTable" var="employeeVar"
+					style="width:1000px;" value="#{employeeBean.employeeList}"
+					widgetVar="employeeTable" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20" draggableColumns="true"
+					editable="true" editMode="cell" rowKey="#{employeeVar.employeeId}"
+					selection="#{employeeBean.selectedEmployeeList}"
+					selectionMode="multiple" rowIndexVar="rowIndex">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Recherche" />
+							<p:inputText id="globalFilter" onkeyup="employeeTable.filter()"
+								style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column id="employeeName" filterBy="#{employeeVar.latinname}"
+						headerText="Employee_Name" filterMatchMode="contains"
+						sortBy="#{employeeVar.latinname}">
+						<f:facet name="header">
+							<h:outputText value="Nom Employee" />
+						</f:facet>
+						<h:outputText value="#{employeeVar.latinname}" />
+					</p:column>
+
+					<p:column id="employeeFunction"
+						filterBy="#{employeeVar.function.latinname}" headerText="Employee_Function"
+						filterMatchMode="contains" sortBy="#{employeeVar.function.latinname}">
+						<f:facet name="header">
+							<h:outputText value="Fonction" />
+						</f:facet>
+						<h:outputText value="#{employeeVar.function.latinname}" />
+					</p:column>
+
+					<p:column id="employeePosition"
+						filterBy="#{employeeVar.subPosition.position.latinname}"
+						headerText="Position" filterMatchMode="contains"
+						sortBy="#{employeeVar.subPosition.position.latinname}">
+						<f:facet name="header">
+							<h:outputText value="Position" />
+						</f:facet>
+						<h:outputText value="#{employeeVar.subPosition.position.latinname}" />
+					</p:column>
+					
+					<p:column id="employeeSubPosition"
+						filterBy="#{employeeVar.subPosition.latinname}"
+						headerText="Sous_Position" filterMatchMode="contains"
+						sortBy="#{employeeVar.subPosition.latinname}">
+						<f:facet name="header">
+							<h:outputText value="Sous Position" />
+						</f:facet>
+						<h:outputText value="#{employeeVar.subPosition.latinname}" />
+					</p:column>
+
+					<!-- les boutons consult + Update + Delete -->
+					<p:column style="width:20%" headerText="Actions" exportable="false">
+						<h:panelGrid columns="3">
+							<p:commandButton id="selectButton"
+								update=":employeeDetailForm:employeePanelConsult"
+								oncomplete="employeeConsult.show()" icon="ui-icon-search"
+								title="Afficher">
+								<f:setPropertyActionListener value="#{employeeVar}"
+									target="#{employeeBean.selectedEmployee}" />
+							</p:commandButton>
+
+							<p:commandButton id="updateButton"
+								update=":employeeUpdateForm:employeePanelUpdate"
+								oncomplete="employeeUpdate.show()" icon="ui-icon-pencil"
+								title="Mettre à jour">
+								<f:setPropertyActionListener value="#{employeeVar}"
+									target="#{employeeBean.selectedEmployee}" />
+							</p:commandButton>
+
+							<p:commandButton id="deleteButton"
+								update=":employeeDeleteForm:employeePanelRemove"
+								oncomplete="employeeRemove.show()" icon="ui-icon-close"
+								title="Supprimer">
+								<f:setPropertyActionListener value="#{employeeVar}"
+									target="#{employeeBean.selectedEmployee}" />
+							</p:commandButton>
+						</h:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</center>
+		</h:form>		
+
+		<!-- Employee Add -->
+		<p:dialog header="Ajouter une employeee" widgetVar="employeeAdd"
+				resizable="true" id="employeeAdd" showEffect="fade"
+				hideEffect="explode" modal="true" width="1000" height="450"
+				icon="ui-icon-addstr">
+		<h:form dir="ltr" id="employeeAddForm">		
+				<h:panelGrid id="employeePanelAdd" width="800">
+					<p:tabView effect="fade">
+						<p:tab title="Informations personnel" >
+							<h:panelGrid columns="2">
+								<p:outputLabel for="typeIdentifiantUnique" value="Type de l'identifiant unique:" />
+						        <p:selectOneRadio id="typeIdentifiantUnique"  value="#{employeeBean.identifierType}">
+						            <f:selectItem itemLabel="CNRPS" itemValue="CNRPS"/>
+						            <f:selectItem itemLabel="CNSS" itemValue="CNSS" />
+						        </p:selectOneRadio>
+						        
+						        <p:outputLabel for="uniqueIdentifier" value="Identifiant unique:" />
+						        <p:inputText id="uniqueIdentifier"  value="#{employeeBean.cnrps}"></p:inputText>
+						        
+								<p:outputLabel for="cin" value="Carte d'identité national:" />
+						        <p:inputText id="cin" value="#{employeeBean.cin}"></p:inputText>
+						        
+						        <p:outputLabel for="arabicLastName" value="Prénom arab:" />
+						        <p:inputText id="arabicLastName" value="#{employeeBean.arabicname}"></p:inputText>
+						        
+						        <p:outputLabel for="latinLastName" value="Prénom latin:" />
+						        <p:inputText id="latinLastName" value="#{employeeBean.latinname}"></p:inputText>
+						       
+						        <p:outputLabel for="arabicName" value="Nom arab:" />
+						        <p:inputText id="arabicName" value="#{employeeBean.arabicFirstName}"></p:inputText>
+						        
+						        <p:outputLabel for="latinName" value="Nom latin:" />
+						        <p:inputText id="latinName" value="#{employeeBean.latinFirstName}"></p:inputText>
+					        </h:panelGrid>
+						</p:tab>
+						
+						<p:tab title="Informations proffessionnel" >
+							<h:panelGrid columns="2">
+								<p:outputLabel for="structuree" value="Structuree d'affectation:" />						        
+						        <p:selectOneMenu id="structuree" filter="true" 
+									value="#{employeeBean.structureId}" filterMatchMode="contains"
+									style="width:190px;">
+									<f:selectItem itemLabel="" itemValue="0" />
+									<f:selectItems value="#{structureBean.structureList}"
+										var="structuree" itemLabel="#{structuree.latinLongName}"
+										itemValue="#{structuree.structureId}" />
+								</p:selectOneMenu>	
+								
+								<p:outputLabel for="function" value="Fonction:" />
+								<p:selectOneMenu id="function" filter="true"
+									value="#{employeeBean.functionId}" filterMatchMode="contains"
+									style="width:190px;">
+									<f:selectItem itemLabel="" itemValue="0" />
+									<f:selectItems value="#{functionBean.functionList}"
+										var="function" itemLabel="#{function.latinname}"
+										itemValue="#{function.functionId}" />
+								</p:selectOneMenu>
+								<p:outputLabel for="functionDate" value="Date de fonction:" />
+						        <p:calendar id="functionDate" value="#{employeeBean.functionDate}"></p:calendar>
+						        
+						        <p:outputLabel for="grade" value="Grade:" />
+								<p:selectOneMenu id="grade" filter="true"
+									value="#{employeeBean.gradeId}" filterMatchMode="contains"
+									style="width:190px;">
+									<f:selectItem itemLabel="" itemValue="0" />
+									<f:selectItems value="#{gradeBean.gradeList}"
+										var="grade" itemLabel="#{grade.latinname}"
+										itemValue="#{grade.gradeId}" />
+								</p:selectOneMenu>
+								
+						        <p:outputLabel for="gradeDate" value="Date de grade:" />
+						        <p:calendar id="gradeDate" value="#{employeeBean.gradeDate}"></p:calendar>
+						        
+						        <p:outputLabel for="responsable" value="Responsable:" />
+						        <p:selectBooleanCheckbox id="responsable"  value="#{employeeBean.isResponsable}" />
+						        
+						        <p:outputLabel for="contact" value="Liste des contactes:" />
+						        <p:selectBooleanCheckbox id="contact"  value="#{employeeBean.isContact}" />
+					        </h:panelGrid>
+						</p:tab>
+						
+						
+						<p:tab title="Contact">
+							
+					    
+					    	<p:fieldset legend="Liste des e-mails" toggleable="true"
+								toggleSpeed="500" id="mails">
+								<h:panelGrid columns="3" cellpadding="5">
+									<h:outputLabel value="Adresse mail :" />
+									<p:inputText id="mailEmp" value="#{employeeBean.mail}"
+										style="width: 7cm">
+									</p:inputText>
+									<p:commandButton id="addMailButton" value="Ajouter à la liste"
+										actionListener="#{employeeBean.addMailToEmployee}"
+										update="mailTable mailEmp" title="Add mail" process="@this mailEmp"
+										icon="ui-icon-myadd">
+									</p:commandButton>
+								</h:panelGrid>
+								<p:dataTable id="mailTable" var="mailEmp"
+									value="#{employeeBean.mailList}"
+									rowKey="#{mailEmp.adress}"
+									selection="#{employeeBean.selectedMail}"
+									selectionMode="single" >
+									<p:column headerText="Mail">
+										<h:outputText value="#{mailEmp.adress}" />
+									</p:column>
+									<p:column headerText="Opérations">
+										<p:commandButton id="deleteMailButton" 
+											icon="ui-icon-delete"
+											value="Supprimer"
+											actionListener="#{employeeBean.deleteMailFromList}"											
+											update=":employeeForm:employeeTable" >																					
+										</p:commandButton>
+									</p:column>				
+								</p:dataTable>
+							</p:fieldset>
+							
+						    
+					</p:tab>
+					
+					 
+												
+					</p:tabView>
+				</h:panelGrid>
+
+				<p:commandButton id="addButton" 
+					actionListener="#{employeeBean.addEmployee}"
+					value="Ajouter"
+					title="Ajouter Employee">
+				</p:commandButton>
+			</h:form>
+		</p:dialog>
+			
+		<!-- Employee Detail  -->
+		<p:dialog header="Afficher detail employee"
+				widgetVar="employeeConsult" resizable="false" id="employeeConsult"
+				showEffect="fade" hideEffect="explode" modal="true">
+		<h:form dir="ltr" id="employeeDetailForm">			
+			<h:panelGrid columns="2" id="employeePanelConsult">
+
+			</h:panelGrid>			
+		</h:form>
+		</p:dialog>
+
+		<!-- Employee update -->
+		<p:dialog header="Mettre à jour" widgetVar="employeeUpdate"
+				resizable="false" id="employeeUpdate" showEffect="fade"
+				hideEffect="explode" modal="true">
+		<h:form dir="ltr" id="employeeUpdateForm">			
+				<h:panelGrid columns="2" id="employeePanelUpdate">
+
+				</h:panelGrid>			
+		</h:form>
+		</p:dialog>
+
+		<!-- Employee delete -->
+		<p:dialog header="Supprimer" widgetVar="employeeRemove"
+				resizable="false" id="employeeRemove" showEffect="fade"
+				hideEffect="explode" modal="true">
+		<h:form dir="ltr" id="employeeDeleteForm">			
+				<h:panelGrid columns="2" id="employeePanelRemove">
+
+				</h:panelGrid>			
+		</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

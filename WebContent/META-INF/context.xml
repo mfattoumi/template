@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Context path="/annuaire">
+ <!--  <Realm  className="org.apache.catalina.realm.JDBCRealm"
+                 digest="md5"
+             driverName="com.mysql.jdbc.Driver"
+          connectionURL="jdbc:mysql://localhost:3306/formation"
+         connectionName="root" connectionPassword="root"
+              userTable="user" userNameCol="user_name" userCredCol="user_pass" 
+              userRoleTable="user_roles" roleNameCol="role_name" />-->
+              <context-param>
+    <param-name>org.apache.myfaces.EXPRESSION_FACTORY</param-name>
+    <param-value>com.sun.el.ExpressionFactoryImpl</param-value>
+</context-param>
+  <context-param>
+    <param-name>com.sun.faces.expressionFactory</param-name>
+    <param-value>com.sun.el.ExpressionFactoryImpl</param-value>
+  </context-param>
+</Context>

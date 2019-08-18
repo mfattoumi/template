@@ -1,0 +1,35 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<div style="height:auto" class="backgroundContent">
+<div style="float:left" class="typenav">    </div><div class="mytitle">Type</div>
+
+	<h:form>
+
+		<h:panelGrid columns="2">
+			
+			<br></br>
+		</h:panelGrid>
+		<ui:repeat var="typeStr" value="#{typeBean.typeList}">
+			
+				<h:panelGrid columns="2">
+					<h:graphicImage width="16" height="16" name="images/yellow.png"
+						border="0" />
+
+					<p:commandLink id="type"
+						action="#{navigationBean.listStructureByType(typeStr.typeId)}">
+						<small>
+						<h:outputText value="#{typeStr.latinname}"  />
+					</small>
+					</p:commandLink>
+				</h:panelGrid>
+			</ui:repeat>
+	</h:form>
+	</div>
+
+</ui:composition>

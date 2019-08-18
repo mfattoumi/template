@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="searchAdvanced::views#public#searchAdvanced.xhtml" NAME="output"
+    PATH="views/public/searchAdvanced.xhtml"
+    TARGET="rules:views#public#searchAdvanced.xhtml"
+    TITLE="searchAdvanced" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:views#public#searchAdvanced.xhtml"
+  PATH="views/public/searchAdvanced.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

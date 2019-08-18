@@ -1,0 +1,70 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/templateSearch.xhtml">
+
+	<ui:define name="search">
+		<h:form>
+<p:button outcome="searchAdvancedEmp" value="Recherche Employé " icon="ui-icon-arrowreturnthick-1-w
+ "/>
+			<center>
+				<h:outputLabel styleClass="mytitleg">#{navigationBean.detailEmp.latinname}
+					#{navigationBean.detailEmp.latinFirstName}</h:outputLabel>
+			</center>
+			<br />
+			<br />
+			<p:panelGrid columns="1" layout="grid" width="50%">
+			<h:outputLabel rendered="#{navigationBean.grade(navigationBean.detailEmp.employeeId)}" styleClass="mytitle"><p:spacer width="5"/>Grade:</h:outputLabel>
+			
+				<h:outputText rendered="#{navigationBean.grade(navigationBean.detailEmp.employeeId)}" 
+				value="#{navigationBean.detailEmp.grade.latinname}" styleClass="mytext"></h:outputText>
+			
+			<h:outputLabel rendered="#{navigationBean.function(navigationBean.detailEmp.employeeId)}" styleClass="mytitle"><p:spacer width="5"/>Fonction:</h:outputLabel>
+			
+				<h:outputText rendered="#{navigationBean.function(navigationBean.detailEmp.employeeId)}" 
+				value="#{navigationBean.detailEmp.function.latinname}" styleClass="mytext"></h:outputText>
+			
+			<h:outputLabel rendered="#{navigationBean.mailE(navigationBean.detailEmp.employeeId)}" styleClass="mytitle"><p:graphicImage name="images/mail-icon.png" /><p:spacer width="5"/>Mail:</h:outputLabel>
+			
+			<p:dataList rendered="#{navigationBean.mailE(navigationBean.detailEmp.employeeId)}" 
+			value="#{navigationBean.detailEmp.mailEmployees}"
+				var="mailEmpVar">
+							<h:outputText value="#{mailEmpVar.adress}" styleClass="mytext"></h:outputText>
+						</p:dataList>
+			
+			<h:outputLabel rendered="false" styleClass="mytitle"><p:graphicImage name="images/home-icon.png" /><p:spacer width="5"/>Adresse:</h:outputLabel>
+			
+			<h:outputText rendered="false" 
+			value="#{navigationBean.detailEmp.latinAdress}" styleClass="mytext"></h:outputText>
+			
+			
+			<h:outputLabel rendered="#{navigationBean.phoneE(navigationBean.detailEmp.employeeId)}" styleClass="mytitle"><p:graphicImage name="images/phone-icon.png" /><p:spacer width="5"/>Téléphone:</h:outputLabel>
+			
+			<p:dataList rendered="#{navigationBean.phoneE(navigationBean.detailEmp.employeeId)}" 
+			value="#{navigationBean.detailEmp.phoneEmployees}" var="phoneEmpVar">
+							<h:outputText value="#{phoneEmpVar.number}" styleClass="mytext"/>
+						</p:dataList>
+			
+			
+			<h:outputLabel rendered="#{navigationBean.faxE(navigationBean.detailEmp.employeeId)}" styleClass="mytitle"><p:graphicImage name="images/fax-icon.png" /><p:spacer width="5"/>Fax:</h:outputLabel>
+			
+			<p:dataList rendered="#{navigationBean.faxE(navigationBean.detailEmp.employeeId)}" 
+			value="#{navigationBean.detailEmp.faxEmployees}" var="faxEmpVar">
+							<h:outputText value="#{faxEmpVar.number} " styleClass="mytext"/>
+						</p:dataList>
+			
+			<h:outputLabel rendered="#{navigationBean.affectation(navigationBean.detailEmp.employeeId)}" styleClass="mytitle"><p:graphicImage name="images/companies-icon.png" /><p:spacer width="5"/>Structuree d'affectation:</h:outputLabel>
+			
+			<p:commandLink id="dtlStr"
+					action="#{navigationBean.detailStructureStr(navigationBean.detailEmp.structure.structureId)}">
+							<h:outputText rendered="#{navigationBean.affectation(navigationBean.detailEmp.employeeId)}" 
+							value="#{navigationBean.detailEmp.structure.latinLongName}" styleClass="mytext"/> 
+							</p:commandLink>
+							</p:panelGrid>
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>

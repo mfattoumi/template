@@ -1,0 +1,122 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/principal.xhtml">
+
+	<ui:define name="resultat">
+		<h:form id="detailStrForm">
+			
+			<center>
+				
+				<h:outputLabel styleClass="mytitleg">#{navigationBean.detailStr.latinLongName}</h:outputLabel>
+			</center>
+			<br />
+			<br />
+			<p:panelGrid columns="1" layout="grid" width="50%">
+			<h:outputLabel rendered="#{navigationBean.website(navigationBean.detailStr.structureId)}" styleClass="mytitle"><p:graphicImage name="images/web-site-icon.png" /><p:spacer width="5"/>Site web:</h:outputLabel>
+			
+			<p:dataList value="#{navigationBean.detailStr.webSites}"
+				var="webStrVar" rendered="#{navigationBean.website(navigationBean.detailStr.structureId)}">
+							
+							<h:outputText
+							value="#{webStrVar.adress} " 
+							 styleClass="mytext" />	
+						</p:dataList>
+			
+			<h:outputLabel rendered="#{navigationBean.local(navigationBean.detailStr.structureId)}" styleClass="mytitle"><p:graphicImage name="images/home-icon.png" /><p:spacer width="5"/>Adresse:</h:outputLabel>
+			
+			<p:dataTable var="localsStrVar" rendered="#{navigationBean.local(navigationBean.detailStr.structureId)}"
+				value="#{navigationBean.listLocalsByStructure}">
+				<p:column headerText="liste des locales">
+					<h:outputText
+						value="#{localsStrVar.latinAdress} #{localsStrVar.delegation.latinname} 
+					#{localsStrVar.postalCode}	#{localsStrVar.delegation.gouvernorat.latinname} #{localsStrVar.country.latinname}" styleClass="mytext"/>
+				</p:column>
+
+				<p:column headerText="Liste des telephones">
+					<p:dataList value="#{localsStrVar.phoneLocals}" var="phonesVar">
+					<h:outputText
+							value="#{phonesVar.number} #{phonesVar.typePhone} " 
+							 styleClass="mytext" />	
+							
+						</p:dataList>
+
+				</p:column>
+
+				<p:column headerText="Liste des faxes">
+					<p:dataList value="#{localsStrVar.faxLocals}" var="faxVar">
+							
+							
+							<h:outputText
+							value="#{faxVar.number} " 
+							  styleClass="mytext"/>	
+						</p:dataList>
+				</p:column>
+
+			</p:dataTable>
+
+			<h:outputLabel rendered="#{navigationBean.mail(navigationBean.detailStr.structureId)}" styleClass="mytitle"><p:graphicImage name="images/mail-icon.png" /><p:spacer width="5"/>Mail</h:outputLabel>
+			
+			<p:dataList value="#{navigationBean.detailStr.mailStructures}"
+				var="mailStrVar" rendered="#{navigationBean.mail(navigationBean.detailStr.structureId)}">
+							
+							
+						<h:outputText
+							value="#{mailStrVar.adress}" 
+							 styleClass="mytext" />	
+							
+						</p:dataList>
+			
+			<h:outputLabel rendered="#{navigationBean.responsable()}" styleClass="mytitle"><p:graphicImage name="images/engineer-icon.png" /> <p:spacer width="5"/>Responsable:</h:outputLabel>
+			
+			<p:dataTable value="#{navigationBean.listResponsablesByStructure}"
+				var="responsablesStrVar" rendered="#{navigationBean.responsable()}">
+				<p:column >
+					<p:commandLink id="dtlStr"
+						action="#{navigationBean.detailEmployee(responsablesStrVar.employeeId)}">
+						<h:outputText
+							value="#{responsablesStrVar.latinname} 
+							#{responsablesStrVar.latinFirstName} " styleClass="mytext" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+			
+			<h:outputLabel rendered="#{navigationBean.contact()}" styleClass="mytitle"><p:graphicImage name="images/contact-icon.png" /><p:spacer width="5"/>Liste des contacts</h:outputLabel>
+			
+			<p:dataTable value="#{navigationBean.listContactsByStructure}"
+				var="contactsStrVar" rendered="#{navigationBean.contact()}">
+				<p:column >
+				<p:commandLink id="dtlStr"
+					action="#{navigationBean.detailEmployee(responsablesStrVar.employeeId)}">
+					<h:outputText
+						value="#{contactsStrVar.latinname} #{contactsStrVar.latinFirstName}"
+						styleClass="mytext" />
+				</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		
+			<h:outputLabel rendered="#{navigationBean.socialNetwork(navigationBean.detailStr.structureId)}" styleClass="mytitle"><p:graphicImage name="images/twitter-icon.png" /><p:graphicImage name="images/facebook-icon.png" /><p:spacer width="5"/>Réseaux sociaux:</h:outputLabel>
+			
+			<p:dataList value="#{navigationBean.detailStr.socialNetworks}"
+				var="socialNetworksStrVar" rendered="#{navigationBean.socialNetwork(navigationBean.detailStr.structureId)}">
+							<p:graphicImage name="images/#{socialNetworksStrVar.networkType}-icon.png" width="16" hight="16"/> <h:outputText value="#{socialNetworksStrVar.latinname}" styleClass="mytext" /> 
+							
+						</p:dataList>
+			
+			<h:outputLabel rendered="#{navigationBean.substructure()}" styleClass="mytitle"><p:graphicImage name="images/orgchart1.png" width="32" hight="32"/><p:spacer width="5"/>Liste des sous structurees:</h:outputLabel>
+			
+			<p:dataList value="#{navigationBean.listSubstructuresByStructure}"
+				var="substructuresStrVar" rendered="#{navigationBean.substructure()}">
+				<p:commandLink id="dtlStr"
+					action="#{navigationBean.detailStructure(substructuresStrVar.structureId)}">
+					<h:outputText value="#{substructuresStrVar.latinLongName}" styleClass="mytext" />
+				</p:commandLink>
+			</p:dataList>
+			</p:panelGrid>
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<h:outputStylesheet name="css/style.css"/>
+	<h:outputStylesheet name="css/bootstraps.css"/>
+	<title><ui:insert name="title">Annuaire Tunisien</ui:insert></title>
+</h:head>
+
+<h:body dir="ltr"
+	style="margin-left: auto; margin-right: auto">
+<div style="width:100%">
+	<div id="top-left"
+		style="float: left; width: 49%; padding-right: 0.0cm;"
+		class="portlet2 table-responsive">
+
+
+		<ui:insert name="top-left">
+			<ui:include src="/views/public/searchRapidStr.xhtml" />
+		</ui:insert>
+	</div>
+
+	<div id="sert" style="float: left; width: 2%; position: relative">
+		<br />
+	</div>
+	<div id="top-right"
+		style="float: right; width: 49%; padding-left: 0.0cm;"
+		class="portlet2 table-responsive">
+
+		<ui:insert name="top-right">
+			<ui:include src="/views/public/searchRapidEmp.xhtml" />
+		</ui:insert>
+
+
+	</div>
+
+	
+
+	
+
+	<div id="bottom-left"
+		style="float: left; width: 25%; padding-top: 0.5cm;"
+		class="portlet2 table-responsive">
+		<ui:insert name="bottom-left">
+			<ui:include src="/views/public/domaineNavigation0.xhtml" />
+		</ui:insert>
+
+	</div>
+	<div id="sert1" style="float: left; width: 3%; position: relative">
+		<br />
+	</div>
+
+	<div id="bottom-middle"
+		style="float: left;  width: 45%;  padding-top:0.5cm;"
+		class="portlet2 table-responsive">
+		 <div align="center">
+
+
+		<ui:insert name="gg">
+		</ui:insert>
+		</div> 
+	</div>
+	<div id="sert2" style="float: left; width: 3%; position: relative">
+		<br />
+	</div>
+
+	<div id="bottom-right"
+		style="float: right; width: 25%;  padding-top: 0.1cm;"
+		class="portlet2 table-responsive">
+		<ui:insert name="bottom-right">
+			<ui:include src="/views/public/typeNavigation0.xhtml" />
+		</ui:insert>
+	</div>
+
+
+
+
+
+
+
+
+</div>
+
+</h:body>
+</html>

@@ -1,0 +1,58 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	
+	<div style="height:auto" class="backgroundContent">
+<div style="float:left" class="empimgportlet">.</div><div class="mytitle">Recherche Employé</div>
+<span class="contentportlet">
+<div class="hoverDiv">
+
+<h:form dir="ltr" id="structureSearchRapidEmpForm">
+<br></br>
+			<p:commandButton id="index" value="Indexer"
+				actionListener="#{searchBean.index}" rendered="true"/>
+			
+			
+			<h:panelGrid columns="2">
+				
+
+				<p:outputLabel for="function"   value="Fonction" />
+				<p:selectOneMenu id="function" filter="true" filterMatchMode="contains"
+					value="#{searchBean.searchedFunction}" style="width:208px">
+					<f:selectItem itemLabel="" itemValue="#" />
+					<f:selectItems value="#{functionBean.functionList}"
+						var="function" itemLabel="#{function.latinname}"
+						itemValue="#{function.latinname}" />
+				</p:selectOneMenu>	
+				
+				<p:outputLabel for="nomStructure"  value="Structuree" />
+				<p:inputText id="nomStructure" style="width:200px; margin-bottom: 0.1cm;"
+					value="#{searchBean.nomStr}">
+				</p:inputText>
+				
+				<p:outputLabel for="elementSearchRapidEmp"  value="Nom et prénom"/>
+				<p:inputText id="elementSearchRapidEmp" style="width:200px"
+					value="#{searchBean.nomEtPrenom}">
+				</p:inputText>
+				
+				</h:panelGrid>
+				
+				<p:commandButton id="SearchRapidEmp" value="Chercher"
+					action="#{searchBean.searchRapidEmp}" update=":structureSearchRapidStrForm"
+					 icon="ui-icon-mysearch" styleClass="button-cherche-emp"/>
+				
+				
+				<p:link outcome="searchAdvanced.xhtml" value="Recherche Avancé">
+    
+				</p:link>
+			
+		</h:form>
+ </div>
+</span>
+
+	</div>
+</ui:composition>

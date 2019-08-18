@@ -1,0 +1,297 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/principal.xhtml">
+
+	<ui:define name="resultat">
+	
+	<div style="height:auto;margin-top:-5px;">
+<div style="float:left" class="advimgportlet" >.</div>
+
+<div class="panel panel-default">
+                     <div class="panel-heading">
+                        <div class="mytitle" >Recherche Avancée Structuree/Employé</div>
+                     </div>
+                     <!-- START list group-->
+                     <div class="list-group">
+ <!-- START list group item-->
+                           <div class="media">
+                              <div class="media-body clearfix">
+                              <div class="pull-left">
+                              </div>
+                              
+
+
+<span class="contentportlet">
+ <div class="hoverDiv">
+		<!-- Structure Search  -->
+		<h:form dir="ltr" id="structureSearchAdvForm">
+<br></br>
+			<p:commandButton id="index" value="Indexer"
+				actionListener="#{searchBean.index}" rendered="false" />
+
+			
+			<p:selectOneRadio id="searchAdvDomain"
+				value="#{searchBean.searchAdvDomain}">
+				<f:selectItem itemLabel="Structuree" itemValue="str" />
+				<f:selectItem itemLabel="Employé" itemValue="emp" />
+				<p:ajax update="searchAdvPanelResult elementSearchAdv searchForm"
+					listener="#{searchBean.dataTableSelectAdv}" />
+			</p:selectOneRadio>
+
+			<!-- Formulaire de recherche pour la structuree -->
+			<h:panelGrid columns="4" id="searchForm">
+
+				<p:outputLabel for="gouvernorat" value="Gouvernorat"
+					rendered="#{searchBean.structureSearchAdvTable}" />
+				<p:selectOneMenu id="gouvernorat" filter="true"
+					filterMatchMode="contains"
+					rendered="#{searchBean.structureSearchAdvTable}"
+					value="#{searchBean.selectedGouvernoratId}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="0" />
+					<f:selectItems value="#{structureBean.gouvernoratList}"
+						var="gouvernorat" itemLabel="#{gouvernorat.latinname}"
+						itemValue="#{gouvernorat.gouvernoratId}" />
+					<p:ajax update="delegation"
+						listener="#{searchBean.findDelegationByGouvernorat}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="delegation" value="Délégation"
+					rendered="#{searchBean.structureSearchAdvTable}" />
+				<p:selectOneMenu id="delegation" filter="true"
+					filterMatchMode="contains"
+					rendered="#{searchBean.structureSearchAdvTable}" style="width:250px"
+					value="#{searchBean.selectedDelegationLatinname}">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{searchBean.delegationList}"
+						var="delegation" itemLabel="#{delegation.latinname}"
+						itemValue="#{delegation.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="domain" value="Secteur d'activités"
+					rendered="#{searchBean.structureSearchAdvTable}" />
+				<p:selectOneMenu id="domain" filter="true"
+					filterMatchMode="contains"
+					rendered="#{searchBean.structureSearchAdvTable}"
+					value="#{searchBean.selectedDomainLatinname}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{structureBean.domainList}" var="domain"
+						itemLabel="#{domain.latinname}" itemValue="#{domain.latinname}" />
+
+				</p:selectOneMenu>
+
+				<p:outputLabel for="typeee" value="Type" style="padding-right: 3cm"
+					rendered="#{searchBean.structureSearchAdvTable}" />
+				<p:selectOneMenu id="typeee" filter="true"
+					filterMatchMode="contains"
+					rendered="#{searchBean.structureSearchAdvTable}"
+					value="#{searchBean.selectedTypeLatinname}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{structureBean.typeList}" var="typee"
+						itemLabel="#{typee.latinname}" itemValue="#{typee.latinname}" />
+
+				</p:selectOneMenu>
+
+				<p:outputLabel for="elementSearchAdv" value="Autre informations"
+					rendered="#{searchBean.structureSearchAdvTable}" />
+				<p:inputText id="elementSearchAdv" style="width:250px"
+					rendered="#{searchBean.structureSearchAdvTable}"
+					value="#{searchBean.elementSearchAdv}">
+				</p:inputText>
+
+				<p:outputLabel for="grade" value="Grade:"
+					rendered="#{searchBean.employeeSearchAdvTable}" />
+				<p:selectOneMenu id="grade" filter="true" filterMatchMode="contains"
+					rendered="#{searchBean.employeeSearchAdvTable}"
+					value="#{searchBean.searchedGrade}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{gradeBean.gradeList}" var="grade"
+						itemLabel="#{grade.latinname}" itemValue="#{grade.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="function" value="Fonction"
+					rendered="#{searchBean.employeeSearchAdvTable}" />
+				<p:selectOneMenu id="function" filter="true"
+					filterMatchMode="contains"
+					rendered="#{searchBean.employeeSearchAdvTable}"
+					value="#{searchBean.searchedFunction}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{functionBean.functionList}" var="function"
+						itemLabel="#{function.latinname}"
+						itemValue="#{function.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="gouvernoratEmp" value="Gouvernorat"
+					rendered="#{searchBean.employeeSearchAdvTable}" />
+				<p:selectOneMenu id="gouvernoratEmp" filter="true"
+					filterMatchMode="contains"
+					rendered="#{searchBean.employeeSearchAdvTable}" style="width:250px"
+					value="#{searchBean.selectedGouvernoratLatinname}">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{structureBean.gouvernoratList}"
+						var="gouvernorat" itemLabel="#{gouvernorat.latinname}"
+						itemValue="#{gouvernorat.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="structureEmp" value="Structuree"
+					rendered="#{searchBean.employeeSearchAdvTable}" />
+				<p:selectOneMenu id="structureEmp" filter="true"
+					filterMatchMode="contains"
+					rendered="#{searchBean.employeeSearchAdvTable}"
+					value="#{searchBean.selectedStructureLatinname}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{structureBean.structureList}" var="structure"
+						itemLabel="#{structure.latinLongName}"
+						itemValue="#{structure.latinLongName}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="elementSearchAdvEmp" value="Nom et prénom"
+					rendered="#{searchBean.employeeSearchAdvTable}" />
+				<p:inputText id="elementSearchAdvEmp" style="width:250px"
+					rendered="#{searchBean.employeeSearchAdvTable}"
+					value="#{searchBean.nomEtPrenom}">
+				</p:inputText>
+
+				<p:outputLabel for="SearchAdv" value="" />
+				<p:outputLabel for="SearchAdv" value="" />
+
+				<p:commandButton id="SearchAdv" value="Chercher"
+					actionListener="#{searchBean.searchAdv}" icon="ui-icon-mysearch"
+					update=" structureSearchAdvTable employeeSearchAdvTable structureSearchAdvForm">
+					
+				</p:commandButton>
+
+
+			</h:panelGrid>
+
+			<p:spacer height="20px;"></p:spacer>
+			<h:panelGrid columns="2" id="searchAdvPanelResult">
+
+
+				<p:dataTable id="structureSearchAdvTable"
+					emptyMessage="Aucun resultat trouvé"
+					value="#{searchBean.structureSearchAdvList}"
+					var="structureSearchAdvVar"
+					rendered="#{searchBean.structureSearchAdvTableR}"
+					widgetVar="structureSearchAdvTable" paginator="true" rows="20"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,40,60" draggableColumns="true">
+					<f:facet name="header">
+
+						<h:outputLabel styleClass="mytitleg">Résultat de la recherche Avancée Structuree</h:outputLabel>
+					</f:facet>
+					<p:column id="latinnameStructure" headerText="Libellé_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Libellé Latin" />
+						</f:facet>
+						<p:commandLink id="dtlStr"
+							action="#{navigationBean.detailStructure(structureSearchAdvVar.structureId)}">
+							<h:outputText value="#{structureSearchAdvVar.latinLongName}"
+								styleClass="mytext" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column id="strParent" headerText="strParent"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Structuree Parente" />
+						</f:facet>
+						<h:outputText
+							value="#{structureSearchAdvVar.structure.latinLongName}"
+							styleClass="mytext" />
+					</p:column>
+
+					<p:column id="Adress" headerText="Adresse"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Adresse" />
+						</f:facet>
+
+						<p:dataList value="#{structureSearchAdvVar.locals}" var="localsVar">
+							<h:outputLabel styleClass="mytext">#{localsVar.latinAdress} #{localsVar.delegation.latinname} #{localsVar.postalCode} #{localsVar.delegation.gouvernorat.latinname} #{localsVar.country.latinname}</h:outputLabel>
+						</p:dataList>
+					</p:column>
+
+					<!-- les boutons consult + Update + Delete -->
+
+				</p:dataTable>
+
+
+				<p:dataTable id="employeeSearchAdvTable"
+					emptyMessage="Aucun resultat trouvé"
+					value="#{searchBean.employeeSearchAdvList}"
+					var="employeeSearchAdvVar" widgetVar="employeeSearchAdvTable"
+					paginator="true" rows="20"
+					rendered="#{searchBean.employeeSearchAdvTableR}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,40,60" draggableColumns="true">
+					<f:facet name="header">
+
+						<h:outputLabel styleClass="mytitleg">Résultat de la recherche Avancée Employé</h:outputLabel>
+					</f:facet>
+					<p:column id="latinnameEmployee" headerText="Name_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Nom Latin" />
+						</f:facet>
+						<p:commandLink id="dtlStr"
+							action="#{navigationBean.detailEmployee(employeeSearchAdvVar.employeeId)}">
+							<h:outputText
+								value="#{employeeSearchAdvVar.latinname} #{employeeSearchAdvVar.latinFirstName}"
+								styleClass="mytext" />
+						</p:commandLink>
+					</p:column>
+
+					<p:column id="functionEmployee" headerText="functionEmployee"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Fonction" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchAdvVar.function.latinname}"
+							styleClass="mytext" />
+					</p:column>
+
+					<p:column id="structureEmployee" headerText="structureEmployee"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Structuree d'affectation" />
+						</f:facet>
+						<h:outputText
+							value="#{employeeSearchAdvVar.structure.latinLongName}"
+							styleClass="mytext" />
+					</p:column>
+
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+		
+		</div>
+</span>
+
+
+                                 
+                              </div>
+                           </div>
+                       
+                       
+                       
+                       
+                     </div>
+                     <!-- END list group-->
+                     <!-- START panel footer-->
+                     <div class="panel-footer clearfix">
+                      <a href="#" class="pull-left">
+                           <small></small>
+                        </a>
+                        
+                     </div>
+                     <!-- END panel-footer-->
+                  </div>
+                  <!-- END messages-->
+	</div>
+	</ui:define>
+</ui:composition>

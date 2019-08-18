@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+
+<h:head>
+	<h:outputStylesheet name="css/style.css" />
+	<h:outputStylesheet name="css/bootstraps.css" />
+	<title><ui:insert name="title">Annuaire Tunisien</ui:insert></title>
+</h:head>
+
+<h:body dir="ltr"
+	style="width:100%;margin-left: auto; margin-right: auto">
+
+
+	<div id="top-left"
+		style="float: left; width: 47%; padding-right: 0.5cm;"
+		class="portlet2 table-responsive">
+		
+			<ui:include src="/views/public/searchRapidStr.xhtml" />
+		
+	</div>
+	<div id="sert" style="float: left; width: 1%; position: relative">
+		<br />
+	</div>
+	<div id="top-right"
+		style="float: left; width: 47%; padding-left: 0.5cm;"
+		class="portlet2 table-responsive">
+
+		
+			<ui:include src="/views/public/searchRapidEmp.xhtml" />
+		
+
+
+	</div>
+
+	<div id="footer" style="clear: both; padding-top: 0.5cm; "></div>
+	<div
+		id="menu" style="clear: both; width: 98%;"   >
+		
+			<ui:include src="/snippets/publicMenu.xhtml" />
+		
+
+
+	</div>
+	<div style="float: left; width: 98%; padding-top: 0.5cm;">
+		<div id="bottom-middle" class="portlet2 table-responsive backgroundContent">
+			<ui:insert name="resultat">
+
+			</ui:insert>
+		</div>
+	</div>
+
+</h:body>
+</html>

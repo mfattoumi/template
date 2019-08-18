@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	
+</h:head>
+
+<h:body dir="ltr" style="width:1200px;margin-left: auto; margin-right: auto">
+	 <h:form id="corpEditForm" >
+		<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+		
+		<p:commandButton id="uploadTypes" value="Upload Types" actionListener="#{uploadBean.uploadTypes}"/>
+		<p:commandButton id="uploadCategories" value="Upload Categories" actionListener="#{uploadBean.uploadCategories}"/>
+		
+		<p:commandButton id="uploadSecteurs" value="Upload Secteurs" actionListener="#{uploadBean.uploadSecteurs}"/>
+		<p:commandButton id="uploadDomaines" value="Upload Domaines" actionListener="#{uploadBean.uploadDomaines}"/>
+		
+		<p:commandButton id="uploadSubTypes" value="Upload SubTypes" actionListener="#{uploadBean.uploadSubTypes}"/>
+		<p:commandButton id="uploadLocaux" value="Upload Locaux" actionListener="#{uploadBean.uploadLocaux}"/>
+		
+		<p:commandButton id="uploadGouvernorats" value="Upload Gouvernorats" actionListener="#{uploadBean.uploadGouvernorats}"/>
+		<p:commandButton id="uploadPays" value="Upload Pays" actionListener="#{uploadBean.uploadPays}"/>
+		
+		<p:commandButton id="uploadStructurees" value="Upload Structurees" actionListener="#{uploadBean.uploadStructurees}"/>
+		<p:commandButton id="updateStructureesParentes" value="Update Structurees Parentes" actionListener="#{uploadBean.updateStructureesStructureeParente}"/>
+		
+		<p:commandButton id="updateSubType" value="Update Structurees SubType" actionListener="#{uploadBean.updateStructureesSubType}"/>
+		<p:commandButton id="updateStructureesOthers" value="Update Others" actionListener="#{uploadBean.updateStructureesOthers}"/>
+		
+        </h:panelGrid>       
+	 </h:form>
+</h:body>
+</html>
+

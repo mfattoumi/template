@@ -1,0 +1,169 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template.xhtml">
+
+	<ui:define name="content">
+		<!-- Structure Search -->
+		<h:form dir="ltr" id="structureSearchAdvForm">
+
+			<p:commandButton id="index" value="Indexer"
+				actionListener="#{searchBean.index}" />
+			<br />
+			<br />
+			<br />
+			<p:selectOneRadio id="searchAdvDomain"
+				value="#{searchBean.searchAdvDomain}">
+				<f:selectItem itemLabel="Structuree" itemValue="str" />
+				<f:selectItem itemLabel="Employé" itemValue="emp" />
+				<p:ajax update="searchAdvPanelResult elementSearchAdv"
+					listener="#{searchBean.dataTableSelectAdv}" />
+			</p:selectOneRadio>
+			<h:panelGrid columns="2">
+
+				<p:outputLabel for="gouvernorat" value="Gouvernorat:" />
+				<p:selectOneMenu id="gouvernorat"
+					value="#{searchBean.selectedGouvernoratId}">
+					<f:selectItem itemLabel="Selectinner un" itemValue="0" />
+					<f:selectItems value="#{structureBean.gouvernoratList}"
+						var="gouvernorat" itemLabel="#{gouvernorat.latinname}"
+						itemValue="#{gouvernorat.gouvernoratId}" />
+					<p:ajax update="delegation"
+						listener="#{searchBean.findDelegationByGouvernorat}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="delegation" value="Délégation:" />
+				<p:selectOneMenu id="delegation"
+					value="#{searchBean.selectedDelegationLatinname}">
+					<f:selectItem itemLabel="Selectionner un" itemValue="#" />
+					<f:selectItems value="#{searchBean.delegationList}"
+						var="delegation" itemLabel="#{delegation.latinname}"
+						itemValue="#{delegation.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="domain" value="Domaine:" />
+				<p:selectOneMenu id="domain"
+					value="#{searchBean.selectedDomainLatinname}">
+					<f:selectItem itemLabel="Selectionner un" itemValue="#" />
+					<f:selectItems value="#{structureBean.domainList}" var="domain"
+						itemLabel="#{domain.latinname}" itemValue="#{domain.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="type" value="Type:" style="padding-right: 3cm" />
+				<p:selectOneMenu id="type"
+					value="#{searchBean.selectedTypeLatinname}">
+					<f:selectItem itemLabel="Selectionner un" itemValue="#" />
+					<f:selectItems value="#{structureBean.typeList}" var="type"
+						itemLabel="#{type.latinname}" itemValue="#{type.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="elementSearchAdv" value="" />
+				<p:inputText id="elementSearchAdv"
+					value="#{searchBean.elementSearchAdv}">
+				</p:inputText>
+
+
+				<p:commandButton id="SearchAdv" value="Chercher"
+					action="#{searchBean.searchAdv}" type="submit"
+					update="structureSearchAdvTable employeeSearchAdvTable"/>
+				<p:commandButton value="Annuler" type="reset" />
+				<br />
+			</h:panelGrid>
+			<p:spacer height="50px;"></p:spacer>
+			<h:panelGrid columns="2" id="searchAdvPanelResult">
+				<f:facet name="header">
+					Résultat de recherche Avancé
+				</f:facet>
+
+				<p:dataTable id="structureSearchAdvTable" style="width:900px;"
+					value="#{searchBean.structureSearchAdvList}"
+					var="structureSearchAdvVar"
+					rendered="#{searchBean.structureSearchAdvTable}"
+					widgetVar="structureSearchAdvTable" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="10,20" draggableColumns="true">
+
+					<p:column id="codeStructure" headerText="Code_Structure"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Code Structure" />
+						</f:facet>
+						<h:outputText value="#{structureSearchAdvVar.code}" />
+					</p:column>
+
+					<p:column id="latinnameStructure" headerText="Libellé_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Libellé Latin" />
+						</f:facet>
+						<h:outputText value="#{structureSearchAdvVar.latinLongName}" />
+					</p:column>
+
+					<p:column id="arabicnameStructure" headerText="Libellé_Arabe"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Libellé Arabe" />
+						</f:facet>
+						<h:outputText value="#{structureSearchAdvVar.arabicLongName}" />
+					</p:column>
+
+					<!-- les boutons consult + Update + Delete -->
+
+				</p:dataTable>
+
+
+				<p:dataTable id="employeeSearchAdvTable" style="width:900px;"
+					value="#{searchBean.employeeSearchAdvList}"
+					var="employeeSearchAdvVar" widgetVar="employeeSearchAdvTable"
+					paginator="true" rows="5"
+					rendered="#{searchBean.employeeSearchAdvTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20" draggableColumns="true">
+
+					<p:column id="latinnameEmployee" headerText="Name_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Nom Latin" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchAdvVar.latinname}" />
+					</p:column>
+
+					<p:column id="arabicnameEmployee" headerText="Name_Arabe"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Nom Arabe" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchAdvVar.arabicname}" />
+					</p:column>
+
+					<p:column id="latinFirstNameEmployee" headerText="FirstName_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Prénom Latin" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchAdvVar.latinFirstName}" />
+					</p:column>
+
+					<p:column id="arabicFirstNameEmployee" headerText="FirstName_Arabe"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Prénom Arabe" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchAdvVar.arabicFirstName}" />
+					</p:column>
+
+
+					<!-- les boutons consult + Update + Delete -->
+
+
+
+
+
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

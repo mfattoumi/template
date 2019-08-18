@@ -1,0 +1,124 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template.xhtml">
+
+	<ui:define name="content">
+		<!-- Structure Search -->
+		<h:form dir="ltr" id="structureSearchForm">
+
+			<p:commandButton id="index" value="Indexer"
+				actionListener="#{searchBean.index}" />
+			<br />
+			<br />
+			<br />
+			<p:selectOneRadio id="searchDomain"
+				value="#{searchBean.searchDomain}">
+				<f:selectItem itemLabel="Structuree" itemValue="str" />
+				<f:selectItem itemLabel="Employé" itemValue="emp" />
+				<p:ajax update="searchPanelResult elementSearch"
+					listener="#{searchBean.dataTableSelect}" />
+			</p:selectOneRadio>
+			<p:inputText id="elementSearch" value="#{searchBean.elementSearch}">
+			</p:inputText>
+
+			<p:commandButton id="Search" value="Chercher"
+				actionListener="#{searchBean.search}"
+				update="structureSearchTable employeeSearchTable" />
+			<p:commandButton value="Annuler" type="reset" />
+			<br />
+			<p:spacer height="50px;"></p:spacer>
+			<h:panelGrid columns="2" id="searchPanelResult">
+				<f:facet name="header">
+					Résultat de recherche
+				</f:facet>
+				
+				<p:dataTable id="structureSearchTable" style="width:900px;"
+					value="#{searchBean.structureSearchList}" var="structureSearchVar"
+					rendered="#{searchBean.structureSearchTable}" widgetVar="structureSearchTable" paginator="true"
+					rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20" draggableColumns="true">
+
+					<p:column id="codeStructure" headerText="Code_Structure"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Code Structure" />
+						</f:facet>
+						<h:outputText value="#{structureSearchVar.code}" />
+					</p:column>
+
+					<p:column id="latinnameStructure" headerText="Libellé_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Libellé Latin" />
+						</f:facet>
+						<h:outputText value="#{structureSearchVar.latinLongName}" />
+					</p:column>
+
+					<p:column id="arabicnameStructure" headerText="Libellé_Arabe"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Libellé Arabe" />
+						</f:facet>
+						<h:outputText value="#{structureSearchVar.arabicLongName}" />
+					</p:column>
+
+					<!-- les boutons consult + Update + Delete -->
+
+				</p:dataTable>
+
+
+				<p:dataTable id="employeeSearchTable" style="width:900px;"
+					value="#{searchBean.employeeSearchList}" var="employeeSearchVar"
+					widgetVar="employeeSearchTable" paginator="true" rows="5" rendered="#{searchBean.employeeSearchTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20" draggableColumns="true">
+
+					<p:column id="latinnameEmployee" headerText="Name_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Nom Latin" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchVar.latinname}" />
+					</p:column>
+
+					<p:column id="arabicnameEmployee" headerText="Name_Arabe"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Nom Arabe" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchVar.arabicname}" />
+					</p:column>
+
+					<p:column id="latinFirstNameEmployee" headerText="FirstName_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Prénom Latin" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchVar.latinFirstName}" />
+					</p:column>
+
+					<p:column id="arabicFirstNameEmployee" headerText="FirstName_Arabe"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Prénom Arabe" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchVar.arabicFirstName}" />
+					</p:column>
+
+
+					<!-- les boutons consult + Update + Delete -->
+
+
+
+
+
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,635 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/template.xhtml">
+
+	<ui:define name="content">
+		<h:form dir="ltr" id="structureForm">
+			<p:commandButton id="addButton"
+				update=":structureAddForm:structurePanelAdd"
+				oncomplete="PF('structureAdd').show()" icon="ui-icon-addstr"
+				value="Ajouter" title="Ajouter Structure">
+			</p:commandButton>
+
+
+			<center>Gestion des Structures</center>
+			<!-- liste des Structure -->
+			<center>
+				<p:dataTable id="structureTable" var="structureVar"
+					style="width:1000px;" value="#{structureBean.structureList}"
+					widgetVar="structureTable" paginator="true" rows="15"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="15,20" draggableColumns="true"
+					editable="true" editMode="cell" rowKey="#{structureVar.structureId}"
+					selection="#{structureBean.selectedStructureList}"
+					selectionMode="multiple" rowIndexVar="rowIndex">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Recherche" />
+							<p:inputText id="globalFilter" onkeyup="structureTable.filter()"
+								style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column id="codeStructure" filterBy="#{structureVar.code}"
+						headerText="Code_Structure" filterMatchMode="contains"
+						sortBy="#{structureVar.code}">
+						<f:facet name="header">
+							<h:outputText value="Code Structure" />
+						</f:facet>
+						<h:outputText value="#{structureVar.code}" />
+					</p:column>
+
+					<p:column id="latinnameStructure"
+						filterBy="#{structureVar.latinLongName}" headerText="Libellé_Latin"
+						filterMatchMode="contains" sortBy="#{structureVar.latinLongName}">
+						<f:facet name="header">
+							<h:outputText value="Libellé Latin" />
+						</f:facet>
+						<h:outputText value="#{structureVar.latinLongName}" />
+					</p:column>
+
+					<p:column id="arabicnameStructure"
+						filterBy="#{structureVar.arabicLongName}"
+						headerText="Libellé_Arabe" filterMatchMode="contains"
+						sortBy="#{structureVar.arabicLongName}">
+						<f:facet name="header">
+							<h:outputText value="Libellé Arabe" />
+						</f:facet>
+						<h:outputText value="#{structureVar.arabicLongName}" />
+					</p:column>
+
+					<!-- les boutons consult + Update + Delete -->
+					<p:column style="width:20%" headerText="Actions" exportable="false">
+						<h:panelGrid columns="3">
+							<p:commandButton id="selectButton"
+								update=":structureDetailForm:structurePanelConsult"
+								oncomplete="structureConsult.show()" icon="ui-icon-search"
+								title="Afficher">
+								<f:setPropertyActionListener value="#{structureVar}"
+									target="#{structureBean.selectedStructureDisplay}" />
+							</p:commandButton>
+
+							<p:commandButton id="updateButton"
+								update=":structureUpdateForm:structurePanelUpdate"
+								oncomplete="structureUpdate.show()" icon="ui-icon-pencil"
+								title="Mettre à jour">
+								<f:setPropertyActionListener value="#{structureVar}"
+									target="#{structureBean.selectedStructureUpdate}" />
+							</p:commandButton>
+
+							<p:commandButton id="deleteButton"
+								update=":structureDeleteForm:structurePanelRemove"
+								oncomplete="structureRemove.show()" icon="ui-icon-close"
+								title="Supprimer">
+								<f:setPropertyActionListener value="#{structureVar}"
+									target="#{structureBean.selectedStructureDelete}" />
+							</p:commandButton>
+
+
+						</h:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</center>
+
+		</h:form>
+
+
+
+		<!-- Structure Add -->
+
+		<h:form dir="ltr" id="structureAddForm">
+
+
+
+			<p:dialog header="Ajouter une structuree" widgetVar="structureAdd"
+				resizable="true" id="structureAdd" showEffect="fade"
+				hideEffect="explode" modal="true" width="1000" height="450"
+				icon="ui-icon-addstr">
+
+				<h:panelGrid id="structurePanelAdd" width="800">
+					<p:tabView effect="fade">
+
+						<p:tab title="Information Général">
+
+
+							<h:panelGrid columns="2" id="structurePanelAdd1" cellpadding="5">
+
+								<h:outputLabel value="" style="padding-right: 3cm" />
+								<h:outputLabel value="" />
+								<h:outputLabel value="Code Structuree: " />
+
+								<p:inputMask id="codeStructure4"
+									value="#{structureBean.selectedStructureAdd.code}" mask="999"
+									style="width: 1cm" />
+
+
+								<h:outputLabel value="Libellé Latin :" />
+
+
+								<p:inputText id="latinnameStructure4"
+									value="#{structureBean.selectedStructureAdd.latinLongName}"
+									style="width: 15cm">
+								</p:inputText>
+
+
+								<h:outputLabel value="Libellé Arabe :" />
+
+								<p:inputText id="arabicnameStructure4"
+									value="#{structureBean.selectedStructureAdd.arabicLongName}"
+									style="width: 15cm">
+								</p:inputText>
+
+
+
+
+								<h:outputLabel value="Libellé Court Latin :" />
+
+								<p:inputText id="latinShortNameStructure4"
+									value="#{structureBean.selectedStructureAdd.latinShortName}"
+									style="width: 7cm">
+								</p:inputText>
+
+
+
+								<p:outputLabel for="parentstructure" value="Structuree Parente:" />
+
+								<p:selectOneMenu id="parentstructure"
+									value="#{structureBean.selectedParentStructureId}">
+									<f:selectItem itemLabel="Selectinner un" itemValue="" />
+									<f:selectItems value="#{structureBean.structureList}"
+										var="parent" itemLabel="#{parent.latinLongName}"
+										itemValue="#{parent.structureId}" />
+								</p:selectOneMenu>
+
+
+								<p:outputLabel for="domain" value="Domaine:" />
+
+								<p:selectOneMenu id="domain"
+									value="#{structureBean.selectedDomainId}">
+									<f:selectItem itemLabel="Selectionner un" itemValue="" />
+									<f:selectItems value="#{structureBean.domainList}" var="domain"
+										itemLabel="#{domain.latinname}" itemValue="#{domain.domainId}" />
+									<p:ajax update="sectorbydomain"
+										listener="#{structureBean.findActivitySectorByDomain}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+							<p:fieldset legend="Secteurs d'activité" toggleable="true"
+								toggleSpeed="500">
+								<h:panelGrid columns="3" cellpadding="5">
+									<p:outputLabel for="sectorbydomain" value="Secteur d'activité:" />
+
+
+
+									<p:selectOneMenu id="sectorbydomain"
+										value="#{structureBean.selectedActivitySectorId}">
+										<f:selectItem itemLabel="Selectinner un" itemValue="" />
+										<f:selectItems
+											value="#{structureBean.activitySectorByDomainList}"
+											var="activitySectorbydomain"
+											itemLabel="#{activitySectorbydomain.latinname}"
+											itemValue="#{activitySectorbydomain.activitySectorid}" />
+									</p:selectOneMenu>
+
+
+									<p:commandButton id="addSectorButton"
+										value="Ajouter à la liste"
+										actionListener="#{structureBean.addSectorToStr}"
+										update="sectorTable" title="Add"
+										process="@this sectorbydomain" icon="ui-icon-myadd"></p:commandButton>
+
+								</h:panelGrid>
+
+
+								<p:dataTable id="sectorTable" var="sectorsStr"
+									value="#{structureBean.sectorStrList}">
+									<p:column headerText="Secteur d'activité">
+										<h:outputText value="#{sectorsStr.latinname}" />
+									</p:column>
+								</p:dataTable>
+
+
+							</p:fieldset>
+
+							<h:panelGrid columns="2">
+								<p:outputLabel for="type" value="Type:"
+									style="padding-right: 3cm" />
+
+								<p:selectOneMenu id="type"
+									value="#{structureBean.selectedTypeId}">
+									<f:selectItem itemLabel="Selectionner un" itemValue="" />
+									<f:selectItems value="#{structureBean.typeList}" var="type"
+										itemLabel="#{type.latinname}" itemValue="#{type.typeId}" />
+									<p:ajax update="subType"
+										listener="#{structureBean.findSubTypeByType}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="subType" value="Sous type:" />
+
+								<p:selectOneMenu id="subType"
+									value="#{structureBean.selectedSubTypeId}">
+									<f:selectItem itemLabel="Selectionner un" itemValue="" />
+									<f:selectItems value="#{structureBean.subTypeList}"
+										var="subType" itemLabel="#{subType.latinname}"
+										itemValue="#{subType.subTypeId}" />
+								</p:selectOneMenu>
+
+								<h:outputLabel value="Mot Clés :" />
+
+								<p:inputText id="keywordStructure4"
+									value="#{structureBean.selectedStructureAdd.keyword}">
+								</p:inputText>
+
+								<h:outputLabel value="Acronyme :" />
+
+								<p:inputText id="acronymStructure4"
+									value="#{structureBean.selectedStructureAdd.acronym}">
+								</p:inputText>
+
+							</h:panelGrid>
+
+
+
+
+						</p:tab>
+
+						<p:tab title="Adresse" id="tabAdress">
+							<h:panelGrid cellpadding="5">
+								<p:commandButton id="addLocalButton" value="Ajouter une locale"
+									update=":addLocalForm:structurePanelAdd2"
+									oncomplete="PF('localAdd').show()" title="Add"
+									icon="ui-icon-myadd">
+								</p:commandButton>
+
+
+
+								<p:dataTable id="localTable" var="locals"
+									value="#{structureBean.localList}">
+									<p:column headerText="Liste des locaux">
+										<h:outputText value="#{locals.latinAdress}" />
+									</p:column>
+								</p:dataTable>
+							</h:panelGrid>
+
+						</p:tab>
+
+						<p:tab title="Contact">
+
+							<!-- <p:panel id="mails" header="Mails"> -->
+							<p:fieldset legend="Liste des e-mails" toggleable="true"
+								toggleSpeed="500" id="mails">
+
+								<h:panelGrid columns="3" cellpadding="5">
+									<h:outputLabel value="Adresse mail :" />
+									<p:inputText id="mailstr" value="#{structureBean.mail}"
+										style="width: 7cm">
+									</p:inputText>
+
+									<p:commandButton id="addMailButton" value="Ajouter à la liste"
+										actionListener="#{structureBean.addMailToStructure}"
+										update="mailTable" title="Add mail" process="@this mailstr"
+										icon="ui-icon-myadd">
+									</p:commandButton>
+
+								</h:panelGrid>
+								<p:dataTable id="mailTable" var="mailStr"
+									value="#{structureBean.mailList}">
+									<p:column headerText="Mail">
+										<h:outputText value="#{mailStr.adress}" />
+									</p:column>
+								</p:dataTable>
+
+							</p:fieldset>
+
+							<p:spacer height="20px;"></p:spacer>
+							<!-- </p:panel> -->
+
+							<!-- <p:panel id="website" header="Site Web"> -->
+
+							<p:fieldset legend="Liste des sites web" toggleable="true"
+								toggleSpeed="500" id="website">
+								<h:panelGrid columns="3" cellpadding="5">
+									<h:outputLabel value="Site Web :" />
+									<p:inputText id="webSitestr" value="#{structureBean.websiteStr}"
+										style="width: 7cm">
+									</p:inputText>
+
+									<p:commandButton id="addWebsiteButton" value="Ajouter Site web"
+										actionListener="#{structureBean.addWebsiteToStructure}"
+										update="websiteTable" title="Add site web"
+										process="@this webSitestr" icon="ui-icon-myadd">
+									</p:commandButton>
+
+								</h:panelGrid>
+								<p:dataTable id="websiteTable" var="websiteStr"
+									value="#{structureBean.websiteList}">
+									<p:column headerText="Mail">
+										<h:outputText value="#{websiteStr.adress}" />
+									</p:column>
+								</p:dataTable>
+							</p:fieldset>
+
+							<p:spacer height="20px;"></p:spacer>
+							<!-- <p:panel id="socialNetwork" header="Réseau sociaux"> -->
+
+							<p:fieldset legend="Réseaux sociaux" toggleable="true"
+								toggleSpeed="500" id="socialNetwork">
+								<h:panelGrid columns="2" cellpadding="5">
+									<h:outputLabel value="Nom latin :" />
+									<p:inputText id="socialNetworkstrlatin"
+										value="#{structureBean.socialNetworklatinname}"
+										style="width: 7cm">
+									</p:inputText>
+
+									<h:outputLabel value="Nom Arabe :" />
+									<p:inputText id="socialNetworkstrarabic"
+										value="#{structureBean.socialNetworkarabicname}"
+										style="width: 7cm">
+									</p:inputText>
+
+									<h:outputLabel value="Type :" />
+									<p:inputText id="socialNetworkstrtype"
+										value="#{structureBean.socialNetworktype}" style="width: 7cm">
+									</p:inputText>
+
+									<p:commandButton id="addsocialNetworkButton"
+										value="Ajouter à la liste"
+										actionListener="#{structureBean.addSocialNetworkToStructure}"
+										update="socialNetworkTable" title="Add Social Network"
+										process="@this socialNetworkstrtype socialNetworkstrarabic socialNetworkstrlatin"
+										icon="ui-icon-myadd">
+									</p:commandButton>
+									<h:outputLabel value="" />
+								</h:panelGrid>
+
+								<p:dataTable id="socialNetworkTable" var="socialNetworkStr"
+									value="#{structureBean.socialNetworkList}">
+									<p:column headerText="Nom Latin">
+										<h:outputText value="#{socialNetworkStr.latinname}" />
+									</p:column>
+									<p:column headerText="Nom Arabe">
+										<h:outputText value="#{socialNetworkStr.arabicname}" />
+									</p:column>
+									<p:column headerText="Type">
+										<h:outputText value="#{socialNetworkStr.networkType}" />
+									</p:column>
+								</p:dataTable>
+							</p:fieldset>
+							<!-- 
+
+							<p:panel id="socialNetwork" header="Réseau social">
+								<h:panelGrid columns="6" id="structurePanelAdd7">
+
+									<p:outputLabel for="typesocialNetwork"
+										value="Type réseau social" />
+									<p:selectOneMenu id="typesocialNetwork"
+										value="#{structureBean.selectedStructureAdd.socialNetworks}">
+										<f:selectItem itemLabel="Selectinner un" itemValue="" />
+										<f:selectItem itemLabel="Facebook" itemValue="Facebook" />
+										<f:selectItem itemLabel="Twiter" itemValue="Twiter" />
+									</p:selectOneMenu>
+
+									<h:outputLabel value="Adresse réseau social :" />
+									<p:inputText id="socialNetworkStr"
+										value="#{structureBean.selectedStructureAdd.socialNetworks}">
+									</p:inputText>
+
+									<h3 style="margin-top: 0">Liste des réseaux sociaux</h3>
+									<p:orderList id="socialList"
+										</p:scrollPanel>value="#{structureBean.structureList}"
+										var="socialNetworkListVar"
+										itemLabel="#{socialNetworkListVar.latinLongName}"
+										itemValue="#{socialNetworkListVar.latinLongName}" />
+									<p:commandButton value="Ajouter" />
+									<p:commandButton value="Modifier" />
+									<p:commandButton value="Supprimer" />
+								</h:panelGrid>
+							</p:panel>
+ -->
+						</p:tab>
+					</p:tabView>
+				</h:panelGrid>
+
+				<p:spacer height="50px;"></p:spacer>
+
+				<f:facet name="footer">
+					<p:commandButton id="add" value="Ajouter"
+						actionListener="#{structureBean.addStructure}"
+						oncomplete="structureAdd.hide()" icon="ui-icon-mysave" />
+					<p:commandButton value="Annuler" type="reset"
+						oncomplete="structureAdd.hide()" />
+
+				</f:facet>
+
+			</p:dialog>
+
+		</h:form>
+
+		<!-- Ajouter locale au strucuture -->
+
+
+
+		<h:form id="addLocalForm">
+
+			<p:dialog header="Ajouter adresse" widgetVar="localAdd"
+				resizable="true" id="localAdd" modal="true" width="1000"
+				height="450">
+
+				<p:fieldset legend="Coordonnées" toggleable="true" toggleSpeed="500">
+
+					<h:panelGrid columns="2" id="structurePanelAdd2" cellpadding="5">
+						<p:outputLabel for="country" value="Pays:" />
+						<p:selectOneMenu id="country"
+							value="#{structureBean.selectedCountryId}">
+							<f:selectItem itemLabel="Selectinner un" itemValue="" />
+							<f:selectItems value="#{structureBean.countryList}" var="country"
+								itemLabel="#{country.latinname}"
+								itemValue="#{country.countryId}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="gouvernorat" value="Gouvernorat:" />
+						<p:selectOneMenu id="gouvernorat"
+							value="#{structureBean.selectedGouvernoratId}">
+							<f:selectItem itemLabel="Selectinner un" itemValue="" />
+							<f:selectItems value="#{structureBean.gouvernoratList}"
+								var="gouvernorat" itemLabel="#{gouvernorat.latinname}"
+								itemValue="#{gouvernorat.gouvernoratId}" />
+							<p:ajax update="delegation"
+								listener="#{structureBean.findDelegationByGouvernorat}" />
+							<p:ajax update="municipality"
+								listener="#{structureBean.findMunicipalityByGouvernorat}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="delegation" value="Délégation:" />
+						<p:selectOneMenu id="delegation"
+							value="#{structureBean.selectedDelegationId}">
+							<f:selectItem itemLabel="Selectionner un" itemValue="" />
+							<f:selectItems value="#{structureBean.delegationList}"
+								var="delegation" itemLabel="#{delegation.latinname}"
+								itemValue="#{delegation.delegationId}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="municipality" value="Municipalité :" />
+						<p:selectOneMenu id="municipality"
+							value="#{structureBean.selectedMunicipalityId}">
+							<f:selectItem itemLabel="Selectionner un" itemValue="" />
+							<f:selectItems value="#{structureBean.municipalityList}"
+								var="municipality" itemLabel="#{municipality.latinname}"
+								itemValue="#{municipality.municipalityId}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="postalCode" value="Code Postal:" />
+						<p:selectOneMenu id="postalCode"
+							value="#{structureBean.postalCode}">
+							<f:selectItem itemLabel="Selectionner un" itemValue="" />
+							<f:selectItem itemLabel="1000" itemValue="1000" />
+							<f:selectItem itemLabel="7000" itemValue="7000" />
+							<f:selectItem itemLabel="8000" itemValue="8000" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Numéro :" />
+						<p:inputText id="numéroStructure4" value="#{structureBean.number}">
+						</p:inputText>
+
+						<h:outputLabel value="Rue en arabe :" />
+						<p:inputText id="ruearabeStructure4"
+							value="#{structureBean.arabicAdress}" style="width: 15cm">
+						</p:inputText>
+
+						<h:outputLabel value="Rue en français :" />
+						<p:inputText id="ruefrancaisStructure4"
+							value="#{structureBean.latinAdress}" style="width: 15cm">
+						</p:inputText>
+
+					</h:panelGrid>
+
+				</p:fieldset>
+				<p:spacer height="20px;"></p:spacer>
+				<p:fieldset legend="Liste des Téléphones" toggleable="true"
+					toggleSpeed="500">
+
+					<h:panelGrid id="structurePanelAddPhone" columns="5">
+
+
+						<p:outputLabel for="typePhone" value="Type téléphone:" />
+						<p:selectOneMenu id="typePhone" value="#{structureBean.typePhone}">
+							<f:selectItem itemLabel="" itemValue="" />
+							<f:selectItem itemLabel="Fixe" itemValue="Fixe" />
+							<f:selectItem itemLabel="Portable" itemValue="Portable" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="N° telephone :" />
+						<p:inputText id="phoneLocal" value="#{structureBean.phoneLocal}">
+						</p:inputText>
+
+						<p:commandButton id="addPhoneLocalButton"
+							value="Ajouter à la liste"
+							actionListener="#{structureBean.addPhoneToLocal}"
+							update="phoneTable" title="Add phone"
+							process="@this phoneLocal typePhone" icon="ui-icon-myadd">
+						</p:commandButton>
+
+					</h:panelGrid>
+
+					<h:panelGrid>
+						<p:dataTable id="phoneTable" var="phoneLocals"
+							value="#{structureBean.phoneLocalList}">
+							<p:column headerText="N°">
+								<h:outputText value="#{phoneLocals.number}" />
+							</p:column>
+							<p:column headerText="Type">
+								<h:outputText value="#{phoneLocals.typePhone}" />
+							</p:column>
+						</p:dataTable>
+					</h:panelGrid>
+				</p:fieldset>
+				<p:spacer height="20px;"></p:spacer>
+				<p:fieldset legend="Liste des Faxes" toggleable="true"
+					toggleSpeed="500">
+					<h:panelGrid id="structurePanelAddFax" columns="3">
+
+						<h:outputLabel value="N° faxe :" />
+
+						<p:inputText id="faxlocal" value="#{structureBean.faxLocal}">
+						</p:inputText>
+
+						<p:commandButton id="addFaxLocalButton" value="Ajouter faxe"
+							actionListener="#{structureBean.addFaxToLocal}" update="faxTable"
+							title="Add fax" process="@this faxlocal" icon="ui-icon-myadd" />
+
+					</h:panelGrid>
+					<h:panelGrid>
+						<p:dataTable id="faxTable" var="faxLocals"
+							value="#{structureBean.faxLocalList}">
+							<p:column headerText="Faxes">
+								<h:outputText value="#{faxLocals.number}" />
+							</p:column>
+						</p:dataTable>
+					</h:panelGrid>
+				</p:fieldset>
+
+
+				<p:spacer height="50px;"></p:spacer>
+
+				<f:facet name="footer">
+					<p:commandButton value="Ajouter Locale"
+						actionListener="#{structureBean.addLocalToStructure}"
+						update=":structureAddForm:structurePanelAdd"
+						oncomplete="addLocalForm:structurePanelAdd2.hide"></p:commandButton>
+
+					<p:commandButton value="Annuler" type="reset"
+						oncomplete="addLocalForm:structurePanelAdd2.hide()" />
+
+				</f:facet>
+
+
+
+
+
+			</p:dialog>
+
+		</h:form>
+
+		<!-- Structure Detail  -->
+
+		<h:form dir="ltr" id="structureDetailForm">
+
+			<p:dialog header="Afficher detail structure"
+				widgetVar="structureConsult" resizable="false" id="structureConsult"
+				showEffect="fade" hideEffect="explode" modal="true">
+				<h:panelGrid columns="2" id="structurePanelConsult">
+
+
+
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+		<!-- Structure update -->
+		<h:form dir="ltr" id="structureUpdateForm">
+			<p:dialog header="Mettre à jour" widgetVar="structureUpdate"
+				resizable="false" id="structureUpdate" showEffect="fade"
+				hideEffect="explode" modal="true">
+				<h:panelGrid columns="2" id="structurePanelUpdate">
+
+
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+		<!-- Structure delete -->
+		<h:form dir="ltr" id="structureDeleteForm">
+			<p:dialog header="Supprimer" widgetVar="structureRemove"
+				resizable="false" id="structureRemove" showEffect="fade"
+				hideEffect="explode" modal="true">
+
+				<h:panelGrid columns="2" id="structurePanelRemove">
+
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

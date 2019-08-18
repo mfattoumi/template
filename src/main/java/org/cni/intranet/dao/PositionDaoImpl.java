@@ -1,0 +1,51 @@
+package org.cni.intranet.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.cni.intranet.entities.Position;
+
+@Repository
+public class PositionDaoImpl implements PositionDao {
+
+	@PersistenceContext
+	private EntityManager em;
+	
+	@Transactional
+	public Position addPosition(Position position) {
+		em.persist(position);
+		return position;
+	}
+
+	@Transactional
+	public Position deletePosition(int id) {
+		Position position = getPositionById(id);
+		em.remove(position);
+		return position;
+	}
+
+	@Transactional
+	public Position updatePosition(Position position) {
+		em.merge(position);
+		return position;
+	}
+
+	@Transactional
+	public Position getPositionById(int id) {
+		Position as = em.find(Position.class, id);
+		if(as==null) throw new RuntimeException("Position introuvable");
+		return as;
+	}
+
+	@Transactional
+	public List<Position> getAllPositions() {
+		Query req = em.createQuery("select x from Position");
+		return req.getResultList();
+	}
+
+}

@@ -1,0 +1,36 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/principal.xhtml">
+
+<ui:define name="resultat">
+
+	<div style="height:auto" class="backgroundContent">
+<div style="float:left" class="domaineimgportlet">.</div><div class="mytitle">Secteur d'activité</div>
+<span class="contentportlet">
+
+<div class="hoverDiv">
+	<h:form>
+
+	<p:dataGrid columns="3" layout="grid" var="domain" value="#{domainBean.domainList}">
+
+		
+				<h:graphicImage width="16" height="16" name="images/yellow.png" border="0" />
+			<p:commandLink id="domain"
+				action="#{navigationBean.listStructureByDomain(domain.domainId)}">
+								<h:outputText value="#{domain.latinname}" />
+				
+			</p:commandLink>
+			
+			
+	</p:dataGrid >		
+		
+	</h:form>
+	</div>
+</span>
+	</div>
+</ui:define>
+</ui:composition>

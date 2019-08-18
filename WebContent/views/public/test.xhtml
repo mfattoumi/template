@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+      <h:head >
+     
+      </h:head>
+    <body>
+		<h:form id="addLocalForm2">
+			
+				
+					<p:outputLabel for="country" value="Pays:" />
+					<p:selectOneMenu id="country"
+						value="#{structureBean.selectedCountryId}">
+						<f:selectItem itemLabel="Selectinner un" itemValue="" />
+						<f:selectItems value="#{structureBean.countryList}" var="country"
+							itemLabel="#{country.latinname}" itemValue="#{country.countryId}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="gouvernorat" value="Gouvernorat:" />
+					<p:selectOneMenu id="gouvernorat"
+						value="#{structureBean.selectedGouvernoratId}">
+						<f:selectItem itemLabel="Selectinner un" itemValue="" />
+						<f:selectItems value="#{structureBean.gouvernoratList}"
+							var="gouvernorat" itemLabel="#{gouvernorat.latinname}"
+							itemValue="#{gouvernorat.gouvernoratId}" />
+						<p:ajax update="delegation"
+							listener="#{structureBean.findDelegationByGouvernorat}" />
+						<p:ajax update="municipality"
+							listener="#{structureBean.findMunicipalityByGouvernorat}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="delegation" value="Délégation:" />
+					<p:selectOneMenu id="delegation"
+						value="#{structureBean.selectedDelegationId}">
+						<f:selectItem itemLabel="Selectionner un" itemValue="" />
+						<f:selectItems value="#{structureBean.delegationList}"
+							var="delegation" itemLabel="#{delegation.latinname}"
+							itemValue="#{delegation.delegationId}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="municipality" value="Municipalité :" />
+					<p:selectOneMenu id="municipality"
+						value="#{structureBean.selectedMunicipalityId}">
+						<f:selectItem itemLabel="Selectionner un" itemValue="" />
+						<f:selectItems value="#{structureBean.municipalityList}"
+							var="municipality" itemLabel="#{municipality.latinname}"
+							itemValue="#{municipality.municipalityId}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="postalCode" value="Code Postal:" />
+					<p:selectOneMenu id="postalCode" value="#{structureBean.postalCode}">
+						<f:selectItem itemLabel="Selectionner un" itemValue="" />
+						<f:selectItem itemLabel="1000" itemValue="1000" />
+						<f:selectItem itemLabel="7000" itemValue="7000" />
+						<f:selectItem itemLabel="8000" itemValue="8000" />
+					</p:selectOneMenu>
+
+					<h:outputLabel value="Numéro :" />
+					<p:inputText id="numéroStructure4" value="#{structureBean.number}">
+					</p:inputText>
+
+					<h:outputLabel value="Rue en arabe :" />
+					<p:inputText id="ruearabeStructure4"
+						value="#{structureBean.arabicAdress}">
+					</p:inputText>
+
+					<h:outputLabel value="Rue en français :" />
+					<p:inputText id="ruefrancaisStructure4"
+						value="#{structureBean.latinAdress}">
+					</p:inputText>
+					
+					<h:outputLabel value="" />
+					<h:outputLabel value="" />
+					
+					
+					
+					
+					
+							
+							<!--  -->
+							
+							<h:outputLabel value="N° faxe :" />
+					<p:inputText id="faxlocal" value="#{structureBean.faxLocal}">
+					</p:inputText>
+					
+					
+					<p:commandButton id="addFaxLocalButton" value="Ajouter faxe"
+					actionListener="#{structureBean.addFaxToLocal}" 
+						update="faxTable"
+						title="Add fax"
+						oncomplete="faxAdd.hide()" />
+					
+					
+					
+					<!--  -->
+
+					<h3 style="margin-top: 0">Liste des Faxes</h3>
+					<p:dataTable id="faxTable" var="faxLocals" value="#{structureBean.faxLocalList}">
+						<p:column headerText="faxe">
+							<h:outputText value="#{faxLocals.number}" />
+						</p:column>
+						
+					</p:dataTable>
+					
+					
+					
+					<p:commandButton value="Ajouter Local"
+						actionListener="#{structureBean.addLocalToStructure}"
+						
+						oncomplete="adressAdd.hide()"></p:commandButton>
+				
+
+
+			
+			
+
+		</h:form>
+
+</body>
+	</html>

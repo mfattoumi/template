@@ -1,0 +1,181 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/templateSearch.xhtml">
+
+	<ui:define name="search">
+		<div style="height:auto;margin-top:-5px;" class="backgroundContent">
+<div style="float:left" class="empimgportlet" >.</div>
+
+<div class="panel panel-default">
+                     <div class="panel-heading">
+                        <div class="mytitle" >Recherche Avancée Employé</div>
+                     </div>
+                     <!-- START list group-->
+                     <div class="list-group">
+ <!-- START list group item-->
+                           <div class="media">
+                              <div class="media-body clearfix">
+                              <div class="pull-left">
+                              </div>
+                              
+
+
+<span class="contentportlet">
+ <div class="hoverDiv">
+		<!-- Employee Search  -->
+		<h:form dir="ltr" id="structureSearchAdvForm">
+<br></br>
+			<p:commandButton id="index" value="Indexer"
+				actionListener="#{searchBean.index}" rendered="false" />
+				
+
+  
+    #{searchBean.setSearchAdvDomain("emp")}
+			<p:selectOneRadio id="searchAdvDomain"
+				value="#{searchBean.searchAdvDomain}" rendered="false">
+				<f:selectItem itemLabel="Structuree" itemValue="str" />
+				<f:selectItem itemLabel="Employé" itemValue="emp" />
+				<p:ajax update="searchAdvPanelResult elementSearchAdv searchForm"
+					listener="#{searchBean.dataTableSelectAdv}" />
+			</p:selectOneRadio>
+
+			<!-- Formulaire de recherche pour la structuree -->
+			<h:panelGrid columns="4" id="searchForm">
+
+				<p:outputLabel for="grade" value="Grade"
+					 />
+				<p:selectOneMenu id="grade" filter="true" filterMatchMode="contains"
+					
+					value="#{searchBean.searchedGrade}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{gradeBean.gradeList}" var="grade"
+						itemLabel="#{grade.latinname}" itemValue="#{grade.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="function" value="Fonction"
+					 />
+				<p:selectOneMenu id="function" filter="true" filterMatchMode="contains"
+					
+					value="#{searchBean.searchedFunction}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{functionBean.functionList}" var="function"
+						itemLabel="#{function.latinname}"
+						itemValue="#{function.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="gouvernoratEmp" value="Gouvernorat"
+					 />
+				<p:selectOneMenu id="gouvernoratEmp" filter="true" filterMatchMode="contains"
+					style="width:250px"
+					value="#{searchBean.selectedGouvernoratLatinname}">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{structureBean.gouvernoratList}"
+						var="gouvernorat" itemLabel="#{gouvernorat.latinname}"
+						itemValue="#{gouvernorat.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="structureEmp" value="Structuree"
+					 />
+				<p:selectOneMenu id="structureEmp" filter="true" filterMatchMode="contains" 
+					
+					value="#{searchBean.selectedStructureLatinname}" style="width:250px">
+					<f:selectItem itemLabel=" " itemValue="#" />
+					<f:selectItems value="#{structureBean.structureList}" var="structure"
+						itemLabel="#{structure.latinLongName}"
+						itemValue="#{structure.latinLongName}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="elementSearchAdvEmp" value="Nom et prénom"
+					 />
+				<p:inputText id="elementSearchAdvEmp"
+					style="width:250px"
+					value="#{searchBean.nomEtPrenom}">
+				</p:inputText>
+
+				<p:outputLabel for="SearchAdv" value="" />
+				<p:outputLabel for="SearchAdv" value="" />
+				<p:outputLabel for="SearchAdv" value="" />
+				<p:commandButton style="margin-top:20px;" id="SearchAdv" value="Chercher"
+					actionListener="#{searchBean.searchAdv}"
+					icon="ui-icon-mysearch"
+					update="  structureSearchAdvForm" >
+					
+					</p:commandButton>
+
+
+			</h:panelGrid>
+
+			<p:spacer height="20px;"></p:spacer>
+			<h:panelGrid columns="2" id="searchAdvPanelResult">
+				
+
+				<p:dataTable id="employeeSearchAdvTablee" emptyMessage="Aucun resultat trouvé"
+					value="#{searchBean.employeeSearchAdvList}"
+					var="employeeSearchAdvVar" widgetVar="employeeSearchAdvTable"
+					paginator="true" rows="20"
+					rendered="#{searchBean.employeeSearchAdvTableR}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="20,40,60" draggableColumns="true">
+					<f:facet name="header">
+
+						<h:outputLabel styleClass="mytitleg">Résultat de la recherche Avancée Employé</h:outputLabel>
+					</f:facet>
+					<p:column id="latinnameEmployee" headerText="Name_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Nom Latin" />
+						</f:facet>
+						<p:commandLink id="dtlStr" action="#{navigationBean.detailEmployeeEmp(employeeSearchAdvVar.employeeId)}">
+						<h:outputText value="#{employeeSearchAdvVar.latinname} #{employeeSearchAdvVar.latinFirstName}" styleClass="mytext"/>
+						</p:commandLink>
+					</p:column>
+
+						<p:column id="functionEmployee" headerText="functionEmployee"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Fonction" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchAdvVar.function.latinname}" styleClass="mytext"/>
+					</p:column>
+					
+						<p:column id="structureEmployee" headerText="structureEmployee"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Structuree d'affectation" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchAdvVar.structure.latinLongName}" styleClass="mytext"/>
+					</p:column>
+
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+				</div>
+</span>
+
+
+                                 
+                              </div>
+                           </div>
+                       
+                       
+                       
+                       
+                     </div>
+                     <!-- END list group-->
+                     <!-- START panel footer-->
+                     <div class="panel-footer clearfix">
+                      <a href="#" class="pull-left">
+                           <small></small>
+                        </a>
+                        
+                     </div>
+                     <!-- END panel-footer-->
+                  </div>
+                  <!-- END messages-->
+	</div>
+	</ui:define>
+</ui:composition>

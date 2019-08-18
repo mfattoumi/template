@@ -1,0 +1,58 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/principal.xhtml">
+
+	<ui:define name="resultat">
+		<h:form>
+
+
+			<br />
+			<p:breadCrumb model="#{navigationBean.simpleMenuModel}"></p:breadCrumb>
+			
+
+
+				<ui:repeat var="listStrByTypeByGouvByDelDTO"
+					value="#{navigationBean.listStrByTypeByGouvByDelDTO}">
+					<h2>
+							<h:outputText
+								value="#{listStrByTypeByGouvByDelDTO.delegation.latinname}" />
+						
+					</h2>
+					
+					<p:panelGrid columns="1" layout="grid">
+
+					<ui:repeat var="alphabet"
+						value="#{listStrByTypeByGouvByDelDTO.listAlphabet}">
+					
+						
+						<h3><h:graphicImage  name="images/#{alphabet}.png"
+						border="0" /></h3>
+
+							<ui:repeat var="listStructures"
+						value="#{listStrByTypeByGouvByDelDTO.listStructures}">
+						
+							<p:commandLink id="dtlStr"  
+							styleClass="#{listStructures.latinLongName.trim().substring(0, 1).toLowerCase()==alphabet ? null : 'ui-datalist-item-empty'}"
+								action="#{navigationBean.detailStructure(listStructures.structureId)}">
+								<small> <h:outputText 
+										value="#{listStructures.latinLongName}" 
+										 /></small>
+										 <br></br>
+							</p:commandLink>
+							
+
+						</ui:repeat>
+
+					</ui:repeat>
+				</p:panelGrid>
+				
+				
+				</ui:repeat>
+		
+		</h:form>
+	</ui:define>
+</ui:composition>

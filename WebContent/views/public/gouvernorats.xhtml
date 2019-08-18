@@ -1,0 +1,230 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/template.xhtml">
+
+	<ui:define name="content">
+		<h:form dir="ltr" id="gouvernoratForm">
+			<p:commandButton id="addButton"
+				update=":gouvernoratAddForm:gouvernoratPanelAdd"
+				oncomplete="PF('gouvernoratAdd').show()" icon="ui-icon-add"
+				value="Ajouter" title="Ajouter Gouvernorat">
+			</p:commandButton>
+			<center>Gestion des Gouvernorats</center>
+			<!-- liste des Gouvernorat -->
+			<center>
+				<p:dataTable id="gouvernoratTable" var="gouvernoratVar"
+					style="width:1000px;" value="#{gouvernoratBean.gouvernoratList}"
+					widgetVar="gouvernoratTable" paginator="true" rows="5"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,20" draggableColumns="true"
+					editable="true" editMode="cell"
+					rowKey="#{gouvernoratVar.gouvernoratId}"
+					selection="#{gouvernoratBean.selectedGouvernoratList}"
+					selectionMode="multiple" rowIndexVar="rowIndex">
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Recherche" />
+							<p:inputText id="globalFilter"
+								onkeyup="gouvernoratTable.filter()" style="width:150px" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column id="codeGouvernorat" filterBy="#{gouvernoratVar.code}"
+						headerText="Code_Gouvernorat" filterMatchMode="contains"
+						sortBy="#{gouvernoratVar.code}">
+						<f:facet name="header">
+							<h:outputText value="Code Gouvernorat" />
+						</f:facet>
+						<h:outputText value="#{gouvernoratVar.code}" />
+					</p:column>
+
+					<p:column id="latinnameGouvernorat" filterBy="#{gouvernoratVar.latinname}"
+						headerText="Libellé_Latin" filterMatchMode="contains"
+						sortBy="#{gouvernoratVar.latinname}">
+						<f:facet name="header">
+							<h:outputText value="Libellé Latin" />
+						</f:facet>
+						<h:outputText value="#{gouvernoratVar.latinname}" />
+					</p:column>
+
+					<p:column id="arabicnameGouvernorat" filterBy="#{gouvernoratVar.arabicname}"
+						headerText="Libellé_Arabe" filterMatchMode="contains"
+						sortBy="#{gouvernoratVar.arabicname}">
+						<f:facet name="header">
+							<h:outputText value="Libellé Arabe" />
+						</f:facet>
+						<h:outputText value="#{gouvernoratVar.arabicname}" />
+					</p:column>
+
+					<!-- les boutons consult + Update + Delete -->
+					<p:column style="width:20%" headerText="Actions" exportable="false">
+						<h:panelGrid columns="3">
+							<p:commandButton id="selectButton"
+							update=":gouvernoratDetailForm:gouvernoratPanelConsult"
+							oncomplete="gouvernoratConsult.show()" 
+							icon="ui-icon-search"
+							title="Afficher">
+							<f:setPropertyActionListener value="#{gouvernoratVar}"
+								target="#{gouvernoratBean.selectedGouvernoratDisplay}" />
+							</p:commandButton>
+
+							<p:commandButton id="updateButton"
+							update=":gouvernoratUpdateForm:gouvernoratPanelUpdate" 
+							oncomplete="gouvernoratUpdate.show()"
+							icon="ui-icon-pencil" 
+							title="Mettre à jour">
+							<f:setPropertyActionListener value="#{gouvernoratVar}"
+								target="#{gouvernoratBean.selectedGouvernoratUpdate}" />
+							</p:commandButton>
+							
+							<p:commandButton id="deleteButton"
+							update=":gouvernoratDeleteForm:gouvernoratPanelRemove" 
+							oncomplete="gouvernoratRemove.show()"
+							icon="ui-icon-close" 
+							title="Supprimer">
+							<f:setPropertyActionListener value="#{gouvernoratVar}"
+								target="#{gouvernoratBean.selectedGouvernoratDelete}" />
+						</p:commandButton>
+							
+
+						</h:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</center>
+		</h:form>
+
+
+
+		<!-- Gouvernorat Add -->
+		<h:form dir="ltr" id="gouvernoratAddForm">
+
+			<p:dialog header="Ajouter Gouvernorat" widgetVar="gouvernoratAdd"
+				resizable="false" id="gouvernoratAdd" showEffect="fade"
+				hideEffect="explode" modal="true">
+				<h:panelGrid columns="2" id="gouvernoratPanelAdd">
+
+					<h:outputLabel value="Code Gouvernorat :" />
+					<p:inputText id="codeGouvernorat4"
+						value="#{gouvernoratBean.selectedGouvernoratAdd.code}">
+					</p:inputText>
+
+					<h:outputLabel value="Libellé Latin :" />
+					<p:inputText id="latinnameGouvernorat4"
+						value="#{gouvernoratBean.selectedGouvernoratAdd.latinname}">
+					</p:inputText>
+
+					<h:outputLabel value="Libellé Arabe :" />
+					<p:inputText id="arabicnameGouvernorat4"
+						value="#{gouvernoratBean.selectedGouvernoratAdd.arabicname}">
+					</p:inputText>
+
+					<f:facet name="footer">
+						<p:spacer height="50px;"></p:spacer>
+
+						<p:commandButton id="add" value="Ajouter"
+							action="#{gouvernoratBean.addGouvernorat}" type="submit"
+							oncomplete="gouvernoratAdd.hide()" />
+						<p:commandButton value="Annuler" type="reset"
+							oncomplete="gouvernoratAdd.hide()" />
+					</f:facet>
+
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+		
+			<!-- Gouvernorat Detail  -->
+		<h:form dir="ltr" id="gouvernoratDetailForm"> 
+	
+			<p:dialog header="Afficher detail gouvernorat" widgetVar="gouvernoratConsult"
+				resizable="false" id="gouvernoratConsult" showEffect="fade"
+				hideEffect="explode" modal="true">
+				<h:panelGrid columns="2" id="gouvernoratPanelConsult">
+						
+						    <h:outputLabel value="Code Gouvernorat :" />
+							<p:inputText id="codeGouvernorat1"
+								value="#{gouvernoratBean.selectedGouvernoratDisplay.code}" disabled="true" readonly="true">
+							</p:inputText>
+							
+							<h:outputLabel value="Libellé Latin :" />
+							<p:inputText id="latinnameGouvernorat1"
+								value="#{gouvernoratBean.selectedGouvernoratDisplay.latinname}" disabled="true" readonly="true" >
+							</p:inputText>
+							
+							<h:outputLabel value="Libellé Arabe :" />
+							<p:inputText id="arabicnameGouvernorat1"
+								value="#{gouvernoratBean.selectedGouvernoratDisplay.arabicname}" disabled="true" readonly="true" >
+							</p:inputText>					
+				
+						</h:panelGrid>
+			</p:dialog> 
+		</h:form>
+		
+		<!-- Gouvernorat update -->
+		<h:form dir="ltr" id="gouvernoratUpdateForm"> 
+			<p:dialog header="Mettre à jour" widgetVar="gouvernoratUpdate"
+				resizable="false" id="gouvernoratUpdate" showEffect="fade"
+				hideEffect="explode" modal="true">
+				<h:panelGrid columns="2" id="gouvernoratPanelUpdate">
+
+							<h:outputLabel value="Code Gouvernorat :" />
+							<p:inputText id="codeGouvernorat3"
+								value="#{gouvernoratBean.selectedGouvernoratUpdate.code}">
+							</p:inputText>
+							
+							<h:outputLabel value="Libellé Latin :" />
+							<p:inputText id="latinnameGouvernorat3"
+								value="#{gouvernoratBean.selectedGouvernoratUpdate.latinname}" >
+							</p:inputText>
+							
+							<h:outputLabel value="Libellé Arabe :" />
+							<p:inputText id="arabicnameGouvernorat3"
+								value="#{gouvernoratBean.selectedGouvernoratUpdate.arabicname}"  >
+							</p:inputText>
+							
+							<f:facet name="footer">
+								<p:spacer height="50px;"></p:spacer>
+								<p:commandButton id="update" value="Mettre à jour"
+									action="#{gouvernoratBean.updateGouvernorat}" type="submit"
+									oncomplete="gouvernoratUpdate.hide()" />
+								<p:commandButton value="Annuler"
+									oncomplete="gouvernoratUpdate.hide()" />
+							</f:facet>
+						</h:panelGrid>
+					</p:dialog>	
+					</h:form>
+	
+	   <!-- Gouvernorat delete -->
+	   <h:form dir="ltr" id="gouvernoratDeleteForm">
+			<p:dialog header="Supprimer" widgetVar="gouvernoratRemove"
+				resizable="false" id="gouvernoratRemove" showEffect="fade"
+				hideEffect="explode" modal="true">
+
+				<h:panelGrid columns="2" id="gouvernoratPanelRemove">
+					<h:outputLabel value="Code Gouvernorat :" />
+					<p:inputText id="codeGouvernorat2"
+						value="#{gouvernoratBean.selectedGouvernoratDelete.code}" disabled="true" />
+					
+					<h:outputLabel value="Libellé Latin :" />
+					<p:inputText id="latinnameGouvernorat2"
+						value="#{gouvernoratBean.selectedGouvernoratDelete.latinname}" disabled="true" />
+
+					<h:outputLabel value="Libellé Arabe :" />
+					<p:inputText id="arabicnameGouvernorat2"
+						value="#{gouvernoratBean.selectedGouvernoratDelete.arabicname}" disabled="true" />
+					
+					<f:facet name="footer">
+						<p:spacer height="50px;"></p:spacer>
+						<p:commandButton id="remove" value="Supprimer"
+							action="#{gouvernoratBean.deleteGouvernorat}" type="submit"
+							oncomplete="gouvernoratRemove.hide()" />
+						<p:commandButton value="Annuler"
+							oncomplete="gouvernoratRemove.hide()" />
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>	
+			</h:form>		
+	</ui:define>
+</ui:composition>

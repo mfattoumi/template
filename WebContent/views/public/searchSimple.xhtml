@@ -1,0 +1,36 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<!-- Structure Search -->
+	<h:form dir="ltr" id="structureSearchForm">
+
+		<p:commandButton id="index" value="Indexer"
+			actionListener="#{searchBean.index}" rendered="false"/>
+		<h:panelGrid columns="2" >
+			<p:graphicImage name="images/searchgen.png" /><center><h4 style="color:#1E90FF"><b>Recherche</b> </h4></center>
+			</h:panelGrid>
+		
+		<p:selectOneRadio id="searchDomain" value="#{searchBean.searchDomain}">
+			<f:selectItem itemLabel="Structuree" itemValue="str" />
+			<f:selectItem itemLabel="Employé" itemValue="emp" />
+			<p:ajax update="elementSearch"
+					listener="#{searchBean.dataTableSelect}" />
+		</p:selectOneRadio>
+		<p:inputText id="elementSearch" value="#{searchBean.elementSearch}" style="width:80%;">
+		</p:inputText>
+		<br /><br />
+		<p:commandButton id="Search" value="Chercher"
+			action="#{searchBean.search}"  icon="ui-icon-mysearch"/>
+		<br />
+		<h:link value = "Recherche Avancé" outcome ="searchAdvanced"  style="font-weight:bold"/>
+				
+		
+		
+
+	</h:form>
+</ui:composition>

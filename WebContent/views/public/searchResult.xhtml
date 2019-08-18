@@ -1,0 +1,102 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/principal.xhtml">
+
+	<ui:define name="resultat">
+<h:form dir="ltr" id="aaaa">
+		<h:panelGrid columns="2" id="searchPanelResult">
+			<f:facet name="header">
+					<h:outputLabel styleClass="mytitle">Résultat de recherche</h:outputLabel>
+				</f:facet>
+
+			<p:dataTable id="structureSearchTable" emptyMessage="Aucun resultat trouvé"
+				value="#{searchBean.structureSearchList}" var="structureSearchVar"
+				rendered="#{searchBean.structureSearchTable}"
+				widgetVar="structureSearchTable" paginator="true" rows="20"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="20,40,60" draggableColumns="true">
+
+				<p:column id="latinnameStructure" headerText="Libellé_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Libellé Latin" />
+						</f:facet>
+						<p:commandLink id="dtlStr" action="#{navigationBean.detailStructure(structureSearchVar.structureId)}">
+						<h:outputText value="#{structureSearchVar.latinLongName}" styleClass="mytext"/>
+						</p:commandLink>
+					</p:column>
+
+					<p:column id="strParent" headerText="strParent"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Structuree Parente" />
+						</f:facet>
+						<h:outputText
+							value="#{structureSearchVar.structure.latinLongName}" styleClass="mytext"/>
+					</p:column>
+					<!--
+					<p:column id="Adress" headerText="Adresse"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Adresse" />
+						</f:facet>
+						
+						 <p:dataList	value="#{structureSearchVar.locals}" var="localsVar">
+							<h:outputLabel styleClass="mytext">#{localsVar.latinAdress} #{localsVar.delegation.latinname} #{localsVar.postalCode} #{localsVar.delegation.gouvernorat.latinname} #{localsVar.country.latinname}</h:outputLabel>
+						</p:dataList> 
+					</p:column>-->
+
+				<!-- les boutons consult + Update + Delete -->
+
+			</p:dataTable>
+
+
+			<p:dataTable id="employeeSearchTable" emptyMessage="Aucun resultat trouvé"
+				value="#{searchBean.employeeSearchList}" var="employeeSearchVar"
+				widgetVar="employeeSearchTable" paginator="true" rows="20"
+				rendered="#{searchBean.employeeSearchTable}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="20,40,60" draggableColumns="true">
+
+				<p:column id="latinnameEmployee" headerText="Name_Latin"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Nom Latin" />
+						</f:facet>
+						<p:commandLink id="dtlStr" action="#{navigationBean.detailEmployee(employeeSearchVar.employeeId)}">
+						<h:outputText value="#{employeeSearchVar.latinname} #{employeeSearchVar.latinFirstName}" styleClass="mytext"/>
+						</p:commandLink>
+					</p:column>
+
+						<p:column id="functionEmployee" headerText="functionEmployee"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Fonction" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchVar.function.latinname}" styleClass="mytext"/>
+					</p:column>
+					
+						<p:column id="structureEmployee" headerText="structureEmployee"
+						filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Structuree d'affectation" />
+						</f:facet>
+						<h:outputText value="#{employeeSearchVar.structure.latinLongName}" styleClass="mytext"/>
+					</p:column>
+
+
+				<!-- les boutons consult + Update + Delete -->
+
+
+
+
+
+			</p:dataTable>
+		</h:panelGrid>
+		</h:form>
+		</ui:define>
+</ui:composition>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+      <h:form dir="ltr" id="menuForm">
+	 	<p:tieredMenu style="width:180px">  
+	 		<p:menuitem value="Les Structurees" url="structures.xhtml" /> 
+	 		<p:menuitem value="Les Employés" url="employees.xhtml" /> 
+	 		<p:menuitem value="Les Nouveautés" url="nouveautes.xhtml" /> 
+	 		<p:submenu label="Les Localités" > 
+	 			<p:menuitem value="Les Localités" url="localites.xhtml" />
+	 			<p:menuitem value="Fax (Localité)" url="faxLocalite.xhtml" />  
+		        <p:menuitem value="Téléphone (Localité)" url="telephoneLocalite.xhtml"/>  
+	 		</p:submenu>
+	 		<p:separator /> 
+	 		<p:menuitem value="Les Catégories" url="categories.xhtml" /> 
+	 		<p:menuitem value="Les Domaines" url="domaines.xhtml" /> 
+	 		<p:menuitem value="Les Fonctions" url="fonctions.xhtml" /> 
+	 		<p:menuitem value="Les Grades" url="grades.xhtml" />
+	 		<p:submenu label="Les Positions" > 
+	 			<p:menuitem value="Les Positions" url="positions.xhtml" />
+	 			<p:menuitem value="Les Sous-Positions" url="souspositions.xhtml" />  
+ 		</p:submenu>
+	 		<p:separator />
+	 		<p:menuitem value="Les Pays" url="countrys.xhtml" />
+	 		<p:menuitem value="Les Gouvernorats" url="gouvernorats.xhtml" /> 
+	 		<p:menuitem value="Les Municipalités" url="municipalites.xhtml" /> 
+	 		<p:menuitem value="Les Delegations" url="delegations.xhtml"  /> 
+	 		<p:separator />
+	 		<p:submenu label="Autres" > 
+		        <p:menuitem value="Les Sites web" url="sitesweb.xhtml" />  
+		        <p:menuitem value="Les e-mail" url="mails.xhtml" /> 
+		        <p:menuitem value="Fax" url="faxes.xhtml" />  
+		        <p:menuitem value="Téléphone" url="telephones.xhtml"/> 
+		        <p:menuitem value="Reference" url="references.xhtml"/> 
+		    </p:submenu>  
+		</p:tieredMenu>  
+	 </h:form>
+	
+</ui:composition>
+

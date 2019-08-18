@@ -1,0 +1,59 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	
+	<div style="height:auto" class="backgroundContent">
+<div style="float:left" class="structureeimgportlet"></div><div class="mytitle">  Recherche Structuree</div>
+
+<span class="contentportlet">
+<div class="hoverDiv">
+
+<h:form dir="ltr" id="structureSearchRapidStrForm">
+<br></br>
+			<p:commandButton id="index" value="Indexer"
+				actionListener="#{searchBean.index}" rendered="false"/>
+			
+			<h:panelGrid columns="2">
+			<p:outputLabel for="gouvernorat" value="Gouvernorat" />				
+				<p:selectOneMenu id="gouvernorat" filter="true" filterMatchMode="contains"
+					value="#{searchBean.selectedGouvernoratLatinname}" style="width:208px">
+					<f:selectItem itemLabel="" itemValue="#" />
+					<f:selectItems value="#{structureBean.gouvernoratList}"
+						var="gouvernorat" itemLabel="#{gouvernorat.latinname}"
+						itemValue="#{gouvernorat.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="domain" value="Secteur d'activités" />
+				<p:selectOneMenu id="domain" filter="true" filterMatchMode="contains"
+					value="#{searchBean.selectedDomainLatinname}" style="width:208px">
+					<f:selectItem itemLabel="" itemValue="#" />
+					<f:selectItems value="#{structureBean.domainList}" var="domain"
+						itemLabel="#{domain.latinname}" itemValue="#{domain.latinname}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="elementSearchRapidStr" value="Nom structuree" />
+				<p:inputText id="elementSearchRapidStr" style="width:200px"
+					value="#{searchBean.elementSearchRapidStr}">
+				</p:inputText>
+                </h:panelGrid>
+                
+			<p:commandButton id="SearchRapidStr" value="Chercher"
+					action="#{searchBean.searchRapidStr}" type="submit"
+					icon="ui-icon-mysearch" styleClass="button-cherche-struct" />
+				
+    
+
+					</h:form>
+					</div>
+
+</span>
+
+	</div>
+	
+		
+
+</ui:composition>
